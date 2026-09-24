@@ -6,7 +6,8 @@ Context for AI coding agents working in this repository.
 
 **Pixroost** — a free, local-first app that unifies photos from the phone gallery and the user's clouds
 (Yandex Disk, Dropbox, OneDrive, WebDAV, Google Photos picker/Takeout) into one feed, finds duplicates
-across clouds, and sends originals to the user's own computer. Platforms: Android, iOS, macOS, Windows.
+across clouds, and sends originals to the user's own computer. Platforms: Android and Windows (+ Linux) for v1.0;
+iOS and macOS come later (see docs/architecture/adr/0008-android-windows-first.md).
 Stack: Kotlin Multiplatform + Compose Multiplatform.
 
 Status: **planning** — no code yet. Design is not started and must not be decided without the owner.

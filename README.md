@@ -18,7 +18,7 @@
 
 <p align="center">
   <img alt="Status: planning" src="https://img.shields.io/badge/status-planning-orange">
-  <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows-lightgrey">
+  <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20Windows-lightgrey">
   <img alt="Kotlin Multiplatform" src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
 </p>
@@ -77,15 +77,18 @@ flowchart LR
 
 ## Planned for v1.0
 
-| | Android | iOS | macOS / Windows |
-|---|:---:|:---:|:---:|
-| Unified library | ✅ | ✅ | ✅ |
-| Phone gallery (incl. iCloud Photos on iPhone) | ✅ | ✅ | — |
-| Yandex Disk, Dropbox, OneDrive, WebDAV | ✅ | ✅ | ✅ |
-| Google Photos (picker) / Google Takeout import | ✅ / — | ✅ / — | ✅ / ✅ |
-| Folders, external drives, cloud sync folders | — | — | ✅ |
-| Cross-cloud duplicates & safe cleanup | ✅ | ✅ | ✅ |
-| QR pairing, send to PC, auto-archive | ✅ | ✅ | receives |
+v1.0 targets **Android and Windows** (plus Linux) — everything we can build and publish for free.
+**iOS and macOS come later**, once there is budget for a Mac and an Apple developer account.
+
+| | Android | Windows / Linux |
+|---|:---:|:---:|
+| Unified library | ✅ | ✅ |
+| Phone gallery | ✅ | — |
+| Yandex Disk, Dropbox, OneDrive, WebDAV | ✅ | ✅ |
+| Google Photos (picker) / Google Takeout import | ✅ / — | ✅ / ✅ |
+| Folders, external drives, cloud sync folders | — | ✅ |
+| Cross-cloud duplicates & safe cleanup | ✅ | ✅ |
+| QR pairing, send to PC, auto-archive | ✅ | receives |
 
 See the full [requirements](docs/product/requirements.md) and [roadmap](docs/roadmap.md).
 

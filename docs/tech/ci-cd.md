@@ -35,8 +35,8 @@ GitHub Actions. Для **публичных** репозиториев мину�
 | Job | Раннер | Результат |
 |---|---|---|
 | `android-release` | ubuntu | подписанный AAB → Google Play (внутреннее тестирование) и RuStore; APK → GitHub Release |
-| `ios-release` | macos | архив → TestFlight через App Store Connect API |
-| `macos-release` | macos | `.dmg`, подпись Developer ID, нотаризация, staple → GitHub Release |
+| `ios-release` | macos | архив → TestFlight через App Store Connect API — этап «iOS и macOS» |
+| `macos-release` | macos | `.dmg`, подпись Developer ID, нотаризация, staple → GitHub Release — этап «iOS и macOS» |
 | `windows-release` | windows | `.msi` → GitHub Release; MSIX → Microsoft Store |
 | `linux-release` | ubuntu | `.deb` → GitHub Release (без официальной поддержки) |
 

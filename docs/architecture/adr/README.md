@@ -15,6 +15,7 @@ ADR (Architecture Decision Record) — короткая запись о реше
 | [0005](0005-lan-transport.md) | Передача по локальной сети: HTTPS с пиннингом и докачкой | Принято, уточняется спайком |
 | [0006](0006-apache-2-license.md) | Лицензия Apache-2.0 | Принято |
 | [0007](0007-device-keys-and-trust.md) | Двухслойные ключи устройств и модель доверия | Принято |
+| [0008](0008-android-windows-first.md) | Сначала Android и Windows, iOS и macOS — позже | Принято |
 
 ## Как добавить
 
