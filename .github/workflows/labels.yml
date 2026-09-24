@@ -1,0 +1,33 @@
+name: Labels
+
+# Syncs repository labels from .github/labels.yml.
+# On pull requests it only checks the file (dry run); on main it applies the changes.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - .github/workflows/labels.yml
+  pull_request:
+    paths:
+      - .github/labels.yml
+      - .github/workflows/labels.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    name: Sync labels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: crazy-max/ghaction-github-labeler@24d110aa46a59976b8a7f35518cb7f14f434c916 # v5.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: .github/labels.yml
+          skip-delete: true
+          dry-run: ${{ github.event_name == 'pull_request' }}

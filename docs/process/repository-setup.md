@@ -123,30 +123,15 @@
 
 ## 8. Лейблы
 
-**Issues → Labels.** Стандартные `bug`, `documentation`, `enhancement`, `good first issue`, `help wanted`,
-`question` оставить. Лишние (`duplicate`, `invalid`, `wontfix`) — по желанию. Добавить:
+Вручную ничего создавать не нужно. Лейблы описаны в файле [`.github/labels.yml`](../../.github/labels.yml),
+и workflow [`Labels`](../../.github/workflows/labels.yml) создаёт и обновляет их при каждом изменении этого файла
+в `main`. Лейблы, которых нет в файле, не удаляются.
 
-| Лейбл | Цвет | Описание |
-|---|---|---|
-| `epic` | `#6F42C1` | Крупный этап с чек-листом |
-| `design` | `#D876E3` | Дизайн и дизайн-система |
-| `spike` | `#FBCA04` | Прототип-исследование |
-| `tech-debt` | `#8B949E` | Технический долг |
-| `blocked` | `#B60205` | Заблокировано другой задачей |
-| `P0` | `#B60205` | Блокер |
-| `P1` | `#D93F0B` | Высокий приоритет |
-| `P2` | `#FBCA04` | Обычный приоритет |
-| `P3` | `#0E8A16` | Низкий приоритет |
-| `platform:android` | `#3DDC84` | Android |
-| `platform:ios` | `#0A84FF` | iOS / iPadOS |
-| `platform:desktop` | `#5319E7` | macOS / Windows |
-| `platform:web` | `#1D76DB` | Сайт и веб |
-| `area:sources` | `#C5DEF5` | Источники и облака |
-| `area:dedupe` | `#C5DEF5` | Дубли и уборка |
-| `area:transfer` | `#C5DEF5` | Устройства и передача |
-| `area:ui` | `#C5DEF5` | Интерфейс |
+- [ ] Проверить, что лейблы появились: **Issues → Labels**.
+      Если нет — **Actions → Labels → Run workflow**.
+- [ ] Повесить лейбл `epic` на эпики #1–#8.
 
-После этого повесить `epic` на эпики #1–#8.
+Чтобы добавить или изменить лейбл — правим `.github/labels.yml` через PR.
 
 ## 9. Вехи
 
