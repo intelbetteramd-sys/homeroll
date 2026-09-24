@@ -83,10 +83,13 @@ Kotlin + Ktor Server, Docker, без базы данных. См. [backend.md](.
 
 ## Что нужно для разработки
 
-| Что | Зачем |
-|---|---|
-| **Mac на Apple Silicon, 16+ ГБ ОЗУ** | сборка iOS (Kotlin/Native), Xcode, симулятор; macOS-версия |
-| iPhone | реальная производительность, камера для QR, PhotoKit с iCloud |
-| Android-телефон | то же для Android |
-| Windows (ПК или виртуальная машина) | проверка desktop-версии |
-| JDK 21 | Gradle, desktop |
+| Что | Зачем | Когда |
+|---|---|---|
+| **ПК на Windows + Android Studio** (плагин Kotlin Multiplatform) | общий код, Android, desktop-версия для Windows и Linux | сейчас |
+| JDK 21 | Gradle, desktop | сейчас |
+| Android-телефон (или эмулятор) | отладка, реальная производительность, камера для QR | сейчас |
+| Mac на Apple Silicon, 16+ ГБ ОЗУ | сборка iOS (Kotlin/Native) и macOS, Xcode, симулятор | этап «iOS и macOS» |
+| iPhone | PhotoKit с iCloud, камера, производительность | этап «iOS и macOS» |
+
+На Windows Android Studio собирает и запускает Android- и desktop-версии; iOS-модули в проекте есть,
+но собираются только на macOS (локально или на macOS-раннере GitHub Actions).

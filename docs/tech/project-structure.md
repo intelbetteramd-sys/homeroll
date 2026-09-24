@@ -80,8 +80,8 @@ flowchart TB
 | iOS bundle ID | `app.pixroost` | — |
 | Desktop | `app.pixroost.desktop` | — |
 
-Идентификаторы `app.pixroost` предполагают домен `pixroost.app` — проверить доступность и купить до
-регистрации приложений в сторах (bundle ID после публикации не меняется).
+Идентификаторы `app.pixroost` не требуют покупки домена `pixroost.app`: сторы проверяют только уникальность.
+Важно не менять их после первой публикации (bundle ID и applicationId потом не меняются).
 
 ## Source sets
 
