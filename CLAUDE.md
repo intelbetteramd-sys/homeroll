@@ -9,7 +9,8 @@ Context for AI coding agents working in this repository.
 across clouds, and sends originals to the user's own computer. Platforms: Android, iOS, macOS, Windows.
 Stack: Kotlin Multiplatform + Compose Multiplatform.
 
-Status: **planning** — no code yet. Design is not started and must not be decided without the owner.
+Status: **planning** — no code yet. Design: first mockups proposed in `docs/design/` (owner review pending);
+do not change the visual direction without the owner.
 
 ## Where things are
 
