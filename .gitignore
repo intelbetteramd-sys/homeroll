@@ -1,0 +1,62 @@
+# ---------- Gradle / Kotlin ----------
+.gradle/
+build/
+.kotlin/
+local.properties
+*.hprof
+
+# ---------- IDE ----------
+.idea/
+*.iml
+*.ipr
+*.iws
+.fleet/
+.vscode/
+out/
+
+# ---------- Android ----------
+captures/
+*.apk
+*.aab
+.externalNativeBuild/
+.cxx/
+
+# ---------- Xcode / iOS ----------
+xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+apps/ios/build/
+Pods/
+
+# ---------- Desktop packaging ----------
+*.dmg
+*.msi
+*.msix
+*.deb
+
+# ---------- Secrets (never commit) ----------
+.env
+.env.*
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
+*.provisionprofile
+google-services.json
+GoogleService-Info.plist
+secrets.properties
+
+# ---------- Website ----------
+node_modules/
+website/dist/
+website/.astro/
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Logs ----------
+*.log

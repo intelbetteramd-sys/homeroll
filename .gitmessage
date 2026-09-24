@@ -1,0 +1,18 @@
+
+# <type>(<scope>)!: <subject>          ← до 72 символов, по-английски
+#
+# type:  feat fix perf refactor docs design test build ci chore revert
+# scope: library sources dedupe devices transfer archive cleanup settings
+#        yandex dropbox onedrive gphotos takeout webdav folder gallery
+#        core db ds platform android ios desktop macos windows server website
+# subject: повелительное наклонение, с маленькой буквы, без точки
+#          "add QR pairing screen", а не "Added QR pairing screen."
+# !      — если изменение ломает совместимость
+#
+# <body> — зачем и как (можно по-русски), строки до ~72 символов
+#
+# <footer>
+# Closes #12
+# BREAKING CHANGE: что сломалось и как мигрировать
+#
+# Подробно: docs/process/conventions.md

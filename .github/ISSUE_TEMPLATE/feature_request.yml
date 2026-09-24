@@ -1,0 +1,33 @@
+name: 💡 Идея / Feature request
+description: Предложить новую возможность / Suggest an idea
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Какую проблему решает / Problem
+      description: Опишите ситуацию, в которой вам не хватает этой возможности.
+      placeholder: "Когда я …, мне приходится …"
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Предлагаемое решение / Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Альтернативы / Alternatives considered
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Платформа / Platform
+      multiple: true
+      options:
+        - Android
+        - iOS / iPadOS
+        - macOS
+        - Windows
+        - Все / All

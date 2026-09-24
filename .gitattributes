@@ -1,0 +1,26 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Windows scripts keep CRLF
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Binary files
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.heic binary
+*.gif  binary
+*.mov  binary
+*.mp4  binary
+*.jar  binary
+*.ttf  binary
+*.otf  binary
+*.ico  binary
+*.icns binary
+
+# Generated / vendored — hide from diffs and language stats
+gradle/wrapper/gradle-wrapper.jar linguist-vendored
+docs/**                           linguist-documentation
