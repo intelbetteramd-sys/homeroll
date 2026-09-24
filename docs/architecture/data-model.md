@@ -38,7 +38,7 @@ erDiagram
 CREATE TABLE source (
   id              INTEGER PRIMARY KEY,
   kind            TEXT    NOT NULL,  -- DEVICE_GALLERY, YANDEX_DISK, DROPBOX, ONEDRIVE, WEBDAV,
-                                     -- GOOGLE_PHOTOS_PICKER, GOOGLE_TAKEOUT, LOCAL_FOLDER, HOMEROLL_ARCHIVE
+                                     -- GOOGLE_PHOTOS_PICKER, GOOGLE_TAKEOUT, LOCAL_FOLDER, PIXROOST_ARCHIVE
   title           TEXT    NOT NULL,  -- «Яндекс Диск», «Архив на ПК-Дом»
   account_label   TEXT,              -- логин, который видит пользователь
   config_json     TEXT    NOT NULL DEFAULT '{}',
