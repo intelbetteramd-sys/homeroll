@@ -4,7 +4,7 @@ Context for AI coding agents working in this repository.
 
 ## Project
 
-**Homeroll** — a free, local-first app that unifies photos from the phone gallery and the user's clouds
+**Pixroost** — a free, local-first app that unifies photos from the phone gallery and the user's clouds
 (Yandex Disk, Dropbox, OneDrive, WebDAV, Google Photos picker/Takeout) into one feed, finds duplicates
 across clouds, and sends originals to the user's own computer. Platforms: Android, iOS, macOS, Windows.
 Stack: Kotlin Multiplatform + Compose Multiplatform.

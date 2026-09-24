@@ -10,7 +10,8 @@
 
 **Settings → General**
 
-- [ ] **Repository name:** `homeroll` → *Rename*. Старые ссылки и `git remote` GitHub будет перенаправлять автоматически.
+- [ ] **Repository name:** `pixroost` → *Rename*. Старые ссылки и `git remote` GitHub будет перенаправлять автоматически
+  (в том числе с прежних имён `megaboom-project` и `homeroll`).
 - [ ] **Danger Zone → Change repository visibility → Public.**
   Перед этим убедитесь, что в истории нет секретов (сейчас там только документация).
 
@@ -22,7 +23,7 @@
   ```
   Every photo from every cloud in one feed — no duplicates, no subscription, originals at home.
   ```
-- [ ] **Website:** пока пусто; потом — адрес сайта (`https://homeroll.app` или GitHub Pages).
+- [ ] **Website:** пока пусто; потом — адрес сайта (`https://pixroost.app` или GitHub Pages).
 - [ ] **Topics:**
   ```
   kotlin-multiplatform compose-multiplatform photos photo-backup deduplication local-first privacy android ios desktop

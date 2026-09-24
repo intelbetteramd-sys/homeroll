@@ -5,7 +5,7 @@
 ## Дерево
 
 ```
-homeroll/
+pixroost/
 ├── apps/
 │   ├── android/                 # точка входа Android (Activity, манифест, иконки)
 │   ├── ios/                     # Xcode-проект: SwiftUI-оболочка, Info.plist, entitlements
@@ -16,7 +16,7 @@ homeroll/
 │   ├── database/                # схема и запросы SQLDelight, миграции
 │   ├── platform/                # интерфейсы платформы + actual-реализации
 │   │                            #   галерея, файлы, секреты, mDNS, фон, OAuth-браузер
-│   ├── designsystem/            # тема, токены, компоненты (Hr*)
+│   ├── designsystem/            # тема, токены, компоненты (Px*)
 │   ├── library/                 # единая медиатека, индексатор
 │   ├── dedupe/                  # хэши, pHash, группы, правило безопасности
 │   ├── devices/                 # ключи, сопряжение, список устройств
@@ -75,12 +75,12 @@ flowchart TB
 | Что | Правило | Пример |
 |---|---|---|
 | Gradle-модуль | kebab-case по пути | `:shared:sources:yandex`, `:shared:feature:cleanup` |
-| Пакет | `app.homeroll.<путь>` | `app.homeroll.sources.yandex`, `app.homeroll.feature.cleanup` |
-| Android applicationId | `app.homeroll` | — |
-| iOS bundle ID | `app.homeroll` | — |
-| Desktop | `app.homeroll.desktop` | — |
+| Пакет | `app.pixroost.<путь>` | `app.pixroost.sources.yandex`, `app.pixroost.feature.cleanup` |
+| Android applicationId | `app.pixroost` | — |
+| iOS bundle ID | `app.pixroost` | — |
+| Desktop | `app.pixroost.desktop` | — |
 
-Идентификаторы `app.homeroll` предполагают домен `homeroll.app` — проверить доступность и купить до
+Идентификаторы `app.pixroost` предполагают домен `pixroost.app` — проверить доступность и купить до
 регистрации приложений в сторах (bundle ID после публикации не меняется).
 
 ## Source sets

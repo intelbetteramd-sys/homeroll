@@ -238,10 +238,10 @@ git config commit.template .gitmessage
 
 - [Официальный стиль Kotlin](https://kotlinlang.org/docs/coding-conventions.html), автоформат — ktlint, анализ — detekt (оба в CI).
 - Отступ 4 пробела, длина строки до 120, trailing commas разрешены (см. [`.editorconfig`](../../.editorconfig)).
-- Пакеты: `app.homeroll.<модуль>[.<подмодуль>]`, например `app.homeroll.sources.yandex`.
+- Пакеты: `app.pixroost.<модуль>[.<подмодуль>]`, например `app.pixroost.sources.yandex`.
 - Именование:
   - экраны: `LibraryScreen`, состояние `LibraryUiState`, логика `LibraryViewModel`;
-  - компоненты дизайн-системы — существительные с префиксом `Hr`: `HrButton`, `HrMediaThumbnail`;
+  - компоненты дизайн-системы — существительные с префиксом `Px`: `PxButton`, `PxMediaThumbnail`;
   - сценарии (use cases) — глагол: `FindDuplicates`, `SendToDevice`;
   - `expect`/`actual` и платформенные реализации — суффикс платформы в имени файла: `PhotoLibrary.ios.kt`.
 - Ресурсы строк — `snake_case` с префиксом экрана: `library_empty_title`, `cleanup_confirm_button`.

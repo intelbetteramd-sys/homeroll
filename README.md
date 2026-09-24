@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="docs/assets/logo.svg" width="112" alt="Homeroll logo">
+  <img src="docs/assets/logo.svg" width="112" alt="Pixroost logo">
 </p>
 
-<h1 align="center">Homeroll</h1>
+<h1 align="center">Pixroost</h1>
 
 <p align="center">
-  <b>Your camera roll, home.</b><br>
+  <b>A home for every photo.</b><br>
   Every photo from every cloud in one feed — no duplicates, no subscription, originals on your own computer.
 </p>
 
@@ -24,7 +24,7 @@
 </p>
 
 > [!NOTE]
-> Homeroll is in the **planning stage** — there is no code yet. This repository holds the product plan,
+> Pixroost is in the **planning stage** — there is no code yet. This repository holds the product plan,
 > architecture and conventions. Follow the [roadmap](docs/roadmap.md).
 
 ## Why
@@ -32,13 +32,13 @@
 Photos end up scattered: some in iCloud, some in Google Photos, some on Yandex Disk — and the same shot
 often lives in three places at once. Every cloud is full, and every one of them wants a monthly subscription.
 
-Homeroll fixes this without selling you more storage:
+Pixroost fixes this without selling you more storage:
 
 - **One feed.** Photos and videos from your phone and your clouds in a single timeline, showing *where every copy lives*.
 - **No duplicates.** Finds the same photo across clouds (and near-identical shots) and shows how much space you can free.
 - **Home archive.** Pair your computers once with a QR code and send originals from your phone to your PC or Mac.
   The desktop app files them into folders by date.
-- **No subscription.** Homeroll never stores your photos on its servers, so there's nothing to rent. It's free.
+- **No subscription.** Pixroost never stores your photos on its servers, so there's nothing to rent. It's free.
 
 ## How it works
 
@@ -68,7 +68,7 @@ flowchart LR
 
 ## Principles
 
-1. **Your photos stay yours.** Nothing ever touches a Homeroll server.
+1. **Your photos stay yours.** Nothing ever touches a Pixroost server.
 2. **Nothing is deleted without proof.** A copy can only be removed if another byte-identical copy exists
    in a place you trust — and only after you confirm.
 3. **Local first.** No account, no email: devices pair by QR code and talk directly on your network.
@@ -105,4 +105,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [branch & commit conventions](do
 
 ## License
 
-[Apache License 2.0](LICENSE). The Homeroll name and logo are not covered by the license.
+[Apache License 2.0](LICENSE). The Pixroost name and logo are not covered by the license.

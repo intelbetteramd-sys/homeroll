@@ -1,6 +1,6 @@
-# Contributing to Homeroll
+# Contributing to Pixroost
 
-**English summary.** Thanks for your interest! Homeroll is in the planning stage. Project docs are in Russian,
+**English summary.** Thanks for your interest! Pixroost is in the planning stage. Project docs are in Russian,
 but issues and pull requests in English are welcome. Please follow the
 [conventions](docs/process/conventions.md): branches `type/issue-short-name`, commits and PR titles in
 [Conventional Commits](https://www.conventionalcommits.org/) format (in English), squash merges only.
@@ -8,7 +8,7 @@ Report security issues privately — see [SECURITY.md](SECURITY.md).
 
 ---
 
-# Как участвовать в Homeroll
+# Как участвовать в Pixroost
 
 Спасибо, что заглянули! Проект на этапе планирования: код появится в [Фазе 1](docs/roadmap.md).
 Уже сейчас можно обсуждать идеи, требования и архитектуру.
