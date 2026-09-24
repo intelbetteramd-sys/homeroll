@@ -18,7 +18,7 @@
 
 <p align="center">
   <img alt="Статус: планирование" src="https://img.shields.io/badge/status-planning-orange">
-  <img alt="Платформы" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows-lightgrey">
+  <img alt="Платформы" src="https://img.shields.io/badge/platforms-Android%20%7C%20Windows-lightgrey">
   <img alt="Kotlin Multiplatform" src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white">
   <a href="LICENSE"><img alt="Лицензия: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
 </p>
@@ -77,15 +77,18 @@ flowchart LR
 
 ## Что будет в v1.0
 
-| | Android | iOS | macOS / Windows |
-|---|:---:|:---:|:---:|
-| Единая лента | ✅ | ✅ | ✅ |
-| Галерея телефона (на iPhone — вместе с iCloud Фото) | ✅ | ✅ | — |
-| Яндекс Диск, Dropbox, OneDrive, WebDAV | ✅ | ✅ | ✅ |
-| Google Фото (выбор) / импорт Google Takeout | ✅ / — | ✅ / — | ✅ / ✅ |
-| Папки, внешние диски, папки синхронизации облаков | — | — | ✅ |
-| Дубли между облаками и безопасная уборка | ✅ | ✅ | ✅ |
-| Связка по QR, отправка на ПК, автоархив | ✅ | ✅ | принимает |
+v1.0 выходит на **Android и Windows** (плюс Linux) — всё, что можно сделать и опубликовать бесплатно.
+**iOS и macOS — позже**, когда появятся Mac и аккаунт разработчика Apple.
+
+| | Android | Windows / Linux |
+|---|:---:|:---:|
+| Единая лента | ✅ | ✅ |
+| Галерея телефона | ✅ | — |
+| Яндекс Диск, Dropbox, OneDrive, WebDAV | ✅ | ✅ |
+| Google Фото (выбор) / импорт Google Takeout | ✅ / — | ✅ / ✅ |
+| Папки, внешние диски, папки синхронизации облаков | — | ✅ |
+| Дубли между облаками и безопасная уборка | ✅ | ✅ |
+| Связка по QR, отправка на ПК, автоархив | ✅ | принимает |
 
 Подробно — в [требованиях](docs/product/requirements.md) и [роадмапе](docs/roadmap.md).
 
