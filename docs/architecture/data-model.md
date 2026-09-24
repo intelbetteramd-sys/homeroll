@@ -27,6 +27,7 @@ erDiagram
   TRANSFER_JOB ||--o{ TRANSFER_ITEM : "состоит из"
   INSTANCE ||--o{ TRANSFER_ITEM : "отправляется как"
   DEVICE ||--o{ ARCHIVE_INDEX : "хранит в архиве"
+  DEVICE ||--o{ CONNECTION_LOG : "подключения"
   INSTANCE ||--o{ CLEANUP_ACTION : "удаляется в"
 ```
 
@@ -114,12 +115,26 @@ CREATE TABLE device (
   name                TEXT    NOT NULL,
   platform            TEXT    NOT NULL,     -- ANDROID, IOS, MACOS, WINDOWS, LINUX
   role                TEXT    NOT NULL,     -- PHONE, DESKTOP
-  public_key          BLOB    NOT NULL,     -- P-256, ключ устройства
+  public_key          BLOB    NOT NULL,     -- P-256, ключ устройства (Secure Enclave / Keystore)
+  transport_key       BLOB,                 -- Ed25519, транспортный ключ для удалённого доступа
   cert_sha256         BLOB,                 -- отпечаток TLS-сертификата ПК (пиннинг)
+  permissions         TEXT    NOT NULL,     -- UPLOAD, BROWSE, DOWNLOAD, REMOTE, MANAGE (через запятую)
+  invited_by          TEXT,                 -- id устройства, которое пригласило (если не через QR на ПК)
   last_address        TEXT,
   last_seen_at        INTEGER,
   is_default_archive  INTEGER NOT NULL DEFAULT 0,
-  paired_at           INTEGER NOT NULL
+  paired_at           INTEGER NOT NULL,
+  revoked_at          INTEGER               -- не NULL → ключ отозван, соединения отклоняются
+);
+
+-- Журнал подключений (ведёт ПК)
+CREATE TABLE connection_log (
+  id          INTEGER PRIMARY KEY,
+  device_id   TEXT    NOT NULL,
+  at          INTEGER NOT NULL,
+  route       TEXT    NOT NULL,        -- LAN, REMOTE
+  event       TEXT    NOT NULL,        -- PAIRED, CONNECTED, UPLOAD, DOWNLOAD, REJECTED_REVOKED, PAIRING_FAILED
+  details     TEXT
 );
 
 -- Очередь передачи
