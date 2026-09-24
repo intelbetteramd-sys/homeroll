@@ -228,7 +228,7 @@ git config commit.template .gitmessage
 | Платформа | `platform:android`, `platform:ios`, `platform:desktop`, `platform:web` |
 | Область | `area:sources`, `area:dedupe`, `area:transfer`, `area:ui` |
 | Приоритет | `P0` (блокер), `P1`, `P2`, `P3` |
-| Прочее | `good first issue`, `help wanted`, `blocked`, `question` |
+| Прочее | `good first issue`, `help wanted`, `blocked`, `question`, `dependencies` |
 
 ---
 
