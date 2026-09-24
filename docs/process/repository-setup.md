@@ -73,6 +73,18 @@
   - ☑ **Require status checks to pass** → *Add checks* → `Conventional Commits`
     (проверка появится в списке после первого PR; когда появится `ci.yml`, добавить и его задачи).
   - ☑ **Block force pushes**
+- [ ] **Не включать** (оставить выключенными):
+  - ☐ **Restrict updates** — ⚠️ заблокирует вообще любые изменения `main`, включая слияние PR;
+  - ☐ Restrict creations — `main` уже существует, правило ничего не даёт;
+  - ☐ Require deployments to succeed — окружений пока нет;
+  - ☐ Require signed commits — не нужно: в `main` попадают только squash-коммиты, которые GitHub подписывает сам;
+  - ☐ Require code scanning results — включим после настройки CodeQL (Фаза 1);
+  - ☐ Require code quality results, Restrict code coverage — когда появится код и CI;
+  - ☐ Automatically request Copilot code review — не нужно.
+- [ ] Внутри **Require a pull request before merging** выключить всё, что требует второго человека:
+  Dismiss stale approvals, Require review from specific teams, Require review from Code Owners,
+  Require approval of the most recent reviewable push, дополнительное одобрение для PR от Copilot.
+  Иначе вы не сможете влить собственный PR.
 - [ ] *Create*.
 
 ## 6. Безопасность
