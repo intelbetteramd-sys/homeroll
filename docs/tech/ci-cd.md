@@ -70,12 +70,6 @@ GitHub Actions. Для **публичных** репозиториев мину�
 
 ## Защита `main` (настроить вручную)
 
-*Settings → Branches → Add rule* для `main`:
-
-- [x] Require a pull request before merging
-- [x] Require status checks to pass (после появления `ci.yml`)
-- [x] Require linear history
-- [x] Do not allow bypassing the above settings (по желанию)
-
-*Settings → General → Pull Requests:* оставить только **Allow squash merging**, включить
-**Automatically delete head branches**.
+Правила для `main` (только через PR, только squash, линейная история, обязательная проверка заголовка PR,
+запрет force push) настраиваются через **Rulesets** — пошагово в
+[настройке репозитория](../process/repository-setup.md#5-защита-ветки-main).
