@@ -89,14 +89,26 @@
 
 ## 6. Безопасность
 
-**Settings → Advanced Security** (раздел может называться *Code security*)
+**Settings → Advanced Security**
 
-- [ ] **Private vulnerability reporting** — Enable (на это ссылается [SECURITY.md](../../SECURITY.md)).
-- [ ] **Dependency graph** — Enable.
-- [ ] **Dependabot alerts** и **Dependabot security updates** — Enable.
-- [ ] **Secret Protection:** **Secret scanning** и **Push protection** — Enable
-  (GitHub не даст запушить токен или ключ).
-- [ ] **Code scanning (CodeQL)** — включим, когда появится Kotlin-код (Фаза 1).
+| Пункт | Выбор | Зачем |
+|---|---|---|
+| Private vulnerability reporting | ✅ Enable | приватные отчёты об уязвимостях, на это ссылается [SECURITY.md](../../SECURITY.md) |
+| Dependency graph | ✅ Enable | список зависимостей проекта |
+| Automatic dependency submission | ✅ Enable | Gradle-зависимости попадут в граф автоматически, когда появится код |
+| Dependabot alerts | ✅ Enable | уведомления об уязвимых зависимостях |
+| Dependabot rules | оставить как есть | встроенное правило скрывает малозначимые оповещения |
+| Dependabot malware alerts | ✅ Enable | оповещение, если в зависимость подсунули вредонос |
+| Dependabot security updates | ✅ Enable | Dependabot сам откроет PR с исправлением уязвимой зависимости |
+| Grouped security updates | ✅ Enable | одно PR вместо десятка |
+| Dependabot version updates | не нажимать | включается файлом `.github/dependabot.yml`, добавляем его через PR |
+| Code scanning → CodeQL analysis | ✅ *Set up → Default* | сейчас проверяет GitHub Actions workflow; когда появится Kotlin — проверить, что язык подхватился |
+| Other tools | — | не нужно |
+| AI Scan for pull requests (Preview) | ❌ Off | Kotlin покрывается CodeQL, превью даст лишний шум |
+| Copilot Autofix | ✅ On | только предлагает исправления к находкам CodeQL |
+| Check runs failure threshold | по умолчанию | — |
+| Secret Protection: Secret scanning | ✅ Enable | найдёт случайно закоммиченные токены и ключи |
+| Secret Protection: Push protection | ✅ Enable | не даст запушить токен или ключ |
 
 Для публичных репозиториев всё это бесплатно.
 
