@@ -1,0 +1,66 @@
+name: Roadmap setup
+
+# Creates the roadmap milestones and attaches labels and milestones to the roadmap epics (#1–#8).
+# Runs after the "Labels" workflow has synced labels on main, or manually.
+# Safe to re-run: existing milestones are kept, labels are only added,
+# and an epic that already has a milestone is not moved.
+
+on:
+  workflow_run:
+    workflows: [Labels]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  setup:
+    name: Milestones and epics
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Create milestones
+        run: |
+          set -euo pipefail
+          existing="$(gh api "repos/$REPO/milestones?state=all&per_page=100" --jq '.[].title')"
+          while IFS='|' read -r title description; do
+            if grep -Fxq "$title" <<<"$existing"; then
+              echo "Milestone exists: $title"
+            else
+              gh api "repos/$REPO/milestones" -f title="$title" -f description="$description" > /dev/null
+              echo "Created milestone: $title"
+            fi
+          done <<'EOF'
+          v0.1 — Ядро и лента|Ядро, база данных, галерея, единая лента
+          v0.2 — Устройства и передача|Связка телефона и ПК, передача, автоархив
+          v0.3 — Облака|Яндекс Диск, Dropbox, OneDrive, WebDAV, Google
+          v0.4 — Дубли и уборка|Дубли и безопасное освобождение места
+          v1.0 — Первый релиз|Бета, полировка и публикация в сторах
+          EOF
+
+      - name: Attach labels and milestones to epics
+        run: |
+          set -euo pipefail
+          while IFS='|' read -r issue milestone labels; do
+            gh issue edit "$issue" --repo "$REPO" --add-label "$labels"
+            current="$(gh issue view "$issue" --repo "$REPO" --json milestone --jq '.milestone.title // ""')"
+            if [ -z "$current" ]; then
+              gh issue edit "$issue" --repo "$REPO" --milestone "$milestone"
+            fi
+            echo "#$issue → ${current:-$milestone} [$labels]"
+          done <<'EOF'
+          1|v0.1 — Ядро и лента|epic
+          2|v0.1 — Ядро и лента|epic,spike
+          3|v0.1 — Ядро и лента|epic,design
+          4|v0.1 — Ядро и лента|epic,area:ui
+          5|v0.2 — Устройства и передача|epic,area:transfer
+          6|v0.3 — Облака|epic,area:sources
+          7|v0.4 — Дубли и уборка|epic,area:dedupe
+          8|v1.0 — Первый релиз|epic
+          EOF
