@@ -219,6 +219,9 @@ git config commit.template .gitmessage
 - Вехи (Milestones) = версии с названием этапа: `v0.1 — Ядро и лента`, …, `v1.0 — Первый релиз`
   (список — в [настройке репозитория](repository-setup.md#9-вехи)).
 
+Полный список с цветами и описаниями — в [`.github/labels.yml`](../../.github/labels.yml)
+(лейблы создаются автоматически, см. [настройку репозитория](repository-setup.md#8-лейблы)).
+
 | Группа | Лейблы |
 |---|---|
 | Тип | `bug`, `enhancement`, `documentation`, `design`, `spike`, `tech-debt`, `epic` |
