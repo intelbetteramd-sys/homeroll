@@ -18,6 +18,7 @@ import app.pixroost.android.spike.data.ReverseRelay
 import app.pixroost.android.spike.data.TransferRunner
 import app.pixroost.android.spike.data.UploadClient
 import app.pixroost.android.spike.data.UploadRoute
+import app.pixroost.android.spike.data.WifiWatcher
 import app.pixroost.android.spike.data.createTestFiles
 import app.pixroost.android.spike.data.localIpv4Addresses
 import app.pixroost.android.spike.ui.model.LanEvent
@@ -52,6 +53,7 @@ class TransferSpikeViewModel(application: Application) : AndroidViewModel(applic
     private val client = UploadClient(trust, source)
     private val relay = ReverseRelay(::log)
     private val responder = DiscoveryResponder(Build.MODEL)
+    private val wifi = WifiWatcher(application, ::log)
     private val runner = TransferRunner(client, source, ::baseUrl, ::log)
     private var transferJob: Job? = null
 
@@ -65,6 +67,7 @@ class TransferSpikeViewModel(application: Application) : AndroidViewModel(applic
     init {
         viewModelScope.launch { relay.run() }
         viewModelScope.launch { responder.run(::onPcRequest, ::log) }
+        wifi.start()
     }
 
     fun selectRoute(route: UploadRoute) = _uiState.update { it.copy(route = route) }
@@ -115,6 +118,7 @@ class TransferSpikeViewModel(application: Application) : AndroidViewModel(applic
     }
 
     override fun onCleared() {
+        wifi.stop()
         responder.close()
         relay.close()
         client.close()

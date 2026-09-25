@@ -30,6 +30,12 @@ object TransferSpikeConstants {
     /** The phone drops a waiting reversed connection older than this, a bit before the PC does. */
     const val REVERSE_MAX_AGE_MILLIS = 12_000L
 
+    /**
+     * When one direction of a relayed connection ends, the other one gets this long to end too. A peer that
+     * vanished with the Wi-Fi never closes its side, and without the limit the relay would wait forever.
+     */
+    const val PIPE_CLOSE_GRACE_MILLIS = 5000L
+
     const val COPY_BUFFER_SIZE = 256 * 1024
     const val SHA256_HEX_LENGTH = 64
 }
