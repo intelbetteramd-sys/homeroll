@@ -59,7 +59,7 @@ flowchart TB
 ```mermaid
 flowchart LR
   UI["UI<br/>экраны, компоненты"] --> VM["ViewModel<br/>состояние экрана"]
-  VM --> UC["Сценарии<br/>FindDuplicates, SendToDevice…"]
+  VM --> UC["Сценарии<br/>FindDuplicatesUseCase, SendToDeviceUseCase…"]
   UC --> REPO["Репозитории<br/>MediaLibrary, Devices, Transfers"]
   REPO --> DB[("Room 3")]
   REPO --> SRC["Источники<br/>MediaSource"]
