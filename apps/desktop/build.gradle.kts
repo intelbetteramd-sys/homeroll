@@ -8,6 +8,8 @@ dependencies {
     implementation(project(":shared:core"))
     implementation(project(":shared:designsystem"))
     implementation(compose.desktop.currentOs)
+    implementation(libs.compose.material3)
+    implementation(libs.jmdns)
 }
 
 compose.desktop {
