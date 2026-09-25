@@ -99,8 +99,8 @@ iPhone, iPad и macOS в светлой и тёмной теме.
 
 | № | Шаг | Что делаем | Макеты | Ч |
 |---|---|---|---|---:|
-| 3.1 | Тема и токены | `PxTheme`: цвета-роли светлой и тёмной темы, шрифты Unbounded и Onest внутри приложения (лицензия OFL в `NOTICE`), отступы, скругления; скриншот-тесты Roborazzi | `DS-Tokens` | 10 |
-| 3.2 | Базовые компоненты | `PxButton`, `PxIconButton`, `PxBadge`, `PxLamp`, `PxSourceMark`, `PxFilterChips`, `PxSwitch`, `PxArchiveStatus` со скриншот-тестами | `DS-Components` | 14 |
+| 3.1 | Тема и токены | `PixroostTheme`: цвета-роли светлой и тёмной темы, шрифты Unbounded и Onest внутри приложения (лицензия OFL в `NOTICE`), отступы, скругления; скриншот-тесты Roborazzi | `DS-Tokens` | 10 |
+| 3.2 | Базовые компоненты | `PrimaryButton` и другие кнопки, `LabeledIconButton`, `StatusBadge`, `LampMark`, `SourceMark`, `LibraryFilters`, `SettingSwitch`, `ArchiveStatus` со скриншот-тестами | `DS-Components` | 14 |
 | 3.3 | Основа | `shared/core`: `Result` и ошибки, логи Kermit, диспетчеры корутин, часы | — | 4 |
 | 3.4 | Навигация и DI | Koin, Navigation 3; разделы: 4 на телефоне, 5 на ПК | `Main`, `W-Library` | 8 |
 | 3.5 | База данных | Room 3 по [модели данных](architecture/data-model.md) и [ADR 0010](architecture/adr/0010-room3.md): сущности, DAO, экспорт схемы, тесты запросов и миграций | — | 12 |

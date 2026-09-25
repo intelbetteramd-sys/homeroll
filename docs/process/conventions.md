@@ -236,19 +236,98 @@ git config commit.template .gitmessage
 
 ## 6. Код
 
+Правила опираются на официальные руководства. Где у проекта своё правило, это сказано явно.
+
+| Руководство | О чём |
+|---|---|
+| [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html) | стиль, имена, организация файлов |
+| [Android Kotlin style guide](https://developer.android.com/kotlin/style-guide) | имена, KDoc |
+| [Compose API guidelines](https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md) и [для компонентов](https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-component-api-guidelines.md) | composable-функции, `Modifier`, параметры, состояние |
+| [Рекомендации по архитектуре Android](https://developer.android.com/topic/architecture/recommendations) | слои, `UiState`, ViewModel, репозитории, сценарии |
+| [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform/multiplatform-expect-actual.html) | наборы исходников, `expect`/`actual` |
+| [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/) | Swift-код оболочки iOS |
+
 ### Kotlin
 
-- [Официальный стиль Kotlin](https://kotlinlang.org/docs/coding-conventions.html), автоформат — ktlint, анализ — detekt (оба в CI).
-- Отступ 4 пробела, длина строки до 120, trailing commas разрешены (см. [`.editorconfig`](../../.editorconfig)).
+- Автоформат — ktlint, анализ — detekt, оба в CI. Отступ 4 пробела, trailing commas разрешены.
+- Длина строки — до 120 символов, а не 100, как в Android style guide: проект мультиплатформенный и следует
+  стилю Kotlin, в котором нет жёсткого предела.
 - Пакеты: `app.pixroost.<модуль>[.<подмодуль>]`, например `app.pixroost.sources.yandex`.
-- Именование:
-  - экраны: `LibraryScreen`, состояние `LibraryUiState`, логика `LibraryViewModel`;
-  - компоненты дизайн-системы — существительные с префиксом `Px`: `PxButton`, `PxMediaThumbnail`;
-  - сценарии (use cases) — глагол: `FindDuplicates`, `SendToDevice`;
-  - `expect`/`actual` и платформенные реализации — суффикс платформы в имени файла: `PhotoLibrary.ios.kt`.
-- Ресурсы строк — `snake_case` с префиксом экрана: `library_empty_title`, `cleanup_confirm_button`.
-  Русские множественные формы — только через `plurals`.
-- Публичный API модулей — с KDoc. Комментарии в коде — по-английски и о том, **почему**, а не **что**.
+- Классы — существительные, функции — глаголы. Слова `Manager`, `Wrapper`, `Util`, `Helper` в именах не используем:
+  имя говорит, что делает код.
+- Аббревиатуры пишутся как слова: `QrScanner`, `IosSwitch`, `loadHttpUrl`.
+- Константы — `SCREAMING_SNAKE_CASE`; для строк и чисел — `const val`.
+- Изменяемое состояние прячется за backing property: `private val _state` и публичный `state`.
+- Видимость — минимально нужная. Публичный API модуля — с KDoc: первая фраза говорит, что это.
+  Параметры описываем текстом, без `@param` и `@return`, если их смысл не очевиден.
+- Комментарии в коде — по-английски и о том, **почему**, а не **что**.
+
+### Файлы и пакеты
+
+Правила проекта, строже Kotlin conventions: те разрешают несколько связанных объявлений в одном файле.
+Так файлы остаются короткими, а нужный компонент находится по имени файла.
+
+- **Одно верхнеуровневое объявление — один файл**, файл называется по нему: `LibraryScreen.kt`, `MediaCell.kt`,
+  `LibraryUiState.kt`. Исключение — `@Preview`: он лежит `private` в файле своего компонента.
+- **Экран** — одна screen-level composable в своём файле. Компоненты экрана — каждый в своём файле.
+- **Вспомогательные функции** — в отдельных файлах, названных по содержанию: `NumberFormatting.kt`, `AppSettings.kt`.
+  Файлы вида `Utils.kt` не заводим.
+- **Константы** — в `object <Область>Constants` в файле `<Область>Constants.kt` рядом с кодом, который их использует:
+  `MediaStoreConstants`, `UiConstants`. Значения по умолчанию публичного компонента дизайн-системы — в
+  `object <Компонент>Defaults`, как принято в Compose: `MediaThumbnailDefaults`.
+- **Пакеты внутри модуля — по слоям:**
+
+  ```
+  app/pixroost/feature/library/
+  ├── data/           репозитории и источники данных
+  ├── domain/         сценарии (…UseCase)
+  └── ui/
+      ├── LibraryScreen.kt
+      ├── LibraryViewModel.kt
+      ├── LibraryConstants.kt
+      ├── component/  компоненты экрана
+      └── model/      LibraryUiState и другие модели UI
+  ```
+
+- Код одной платформы — в её наборе исходников (`androidMain`, `iosMain`, `desktopMain`); файлы с `actual` —
+  с суффиксом платформы: `PhotoLibrary.ios.kt`. Для платформенных реализаций сначала интерфейс и DI,
+  `expect`/`actual` — для простых функций и `typealias`: так советует документация Kotlin Multiplatform.
+
+### Compose
+
+- Composable-функция, которая рисует и возвращает `Unit`, — существительное в `PascalCase`: `MediaGrid`.
+  Функция, которая возвращает значение, — `camelCase`; если внутри `remember`, имя начинается с `remember`.
+  Функция либо рисует, либо возвращает значение, но не то и другое.
+- Параметры по порядку: обязательные → `modifier: Modifier = Modifier` → необязательные → завершающая лямбда
+  `content`. `modifier` применяется один раз, к корневому элементу, первым в цепочке.
+- Компоненты без собственного состояния, где это возможно: состояние и события приходят параметрами.
+  В параметры не передаём `MutableState` и ViewModel; ViewModel знает только экран.
+- Сильно разные варианты компонента — отдельные функции, как в Material: `PrimaryButton`, `TonalButton`.
+- `CompositionLocal` — только для того, что нужно всему дереву, и с разумным значением по умолчанию.
+- **Имена компонентов дизайн-системы** — по назначению, без префикса проекта: `SourceMark`, `MediaThumbnail`,
+  `ArchiveStatus`. Если имя совпало бы с Material 3 (`Button`, `Badge`, `Switch`), уточняем роль:
+  `PrimaryButton`, `StatusBadge`, `SettingSwitch`. Тема и её токены называются по приложению: `PixroostTheme`,
+  `PixroostColors`, как принято в примерах Google.
+- Эти правила проверяет [compose-rules](https://mrmans0n.github.io/compose-rules/) в составе ktlint.
+
+### Архитектура
+
+- Однонаправленный поток данных: ViewModel экрана отдаёт один `uiState: StateFlow<LibraryUiState>`, экран собирает
+  его через `collectAsStateWithLifecycle`, действия пользователя — вызовы методов ViewModel. ViewModel не
+  отправляет в UI «события»: всё, что UI должен показать, — часть состояния.
+- Данные — только через репозитории. Реализация называется по способу: `OfflineFirstLibraryRepository`,
+  `DefaultLibraryRepository`.
+- Сценарии (use cases) — глагол, объект и `UseCase`: `FindDuplicatesUseCase`, `SendToDeviceUseCase`; вызываются
+  через `operator fun invoke` и безопасны для главного потока.
+- В тестах — фейки, а не моки: `FakeLibraryRepository`.
+
+### Строки интерфейса
+
+- Ресурсы Compose Multiplatform: `composeResources/values/strings.xml` и переводы в `values-<язык>/`.
+- Имена — `snake_case` с префиксом экрана: `library_empty_title`, `cleanup_confirm_button`.
+- В коде — `stringResource(Res.string.library_empty_title)`, вне composable — `getString(...)`.
+  Аргументы — позиционные: `%1$d`, `%2$s`.
+- Количества — только через `plurals` и `pluralStringResource`: в русском нужны формы one, few, many, other.
 
 ### Проверки кода
 
@@ -264,7 +343,8 @@ git config commit.template .gitmessage
 
 - **Стиль** задаёт [`.editorconfig`](../../.editorconfig): стиль ktlint `intellij_idea`, то есть официальный стиль Kotlin.
   Android Studio форматирует так же (*Code → Reformat Code*), остальное исправит `spotlessApply`.
-  Composable-функции называются с большой буквы, как типы: `LampMark`.
+- **Правила Compose** проверяет compose-rules внутри того же `spotlessCheck`. Его замечания `spotlessApply`
+  не исправляет — их правим руками.
 - **detekt** работает на правилах по умолчанию; отличия — в [`config/detekt.yml`](../../config/detekt.yml).
   Замечание исправляем. Если правило мешает в конкретном месте, ставим `@Suppress` с именем правила
   и комментарием, почему.
@@ -273,12 +353,17 @@ git config commit.template .gitmessage
 ### Swift (оболочка iOS)
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/), автоформат — SwiftFormat.
-- Swift-кода минимум: точка входа и то, что невозможно сделать из Kotlin.
+- Swift-кода минимум: точка входа и то, что Compose не умеет или делает хуже системы
+  ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)).
+- Главное — ясность в месте вызова. Фабрики начинаются с `make`, логические свойства читаются как утверждения
+  (`isEmpty`). Аббревиатуры в Swift пишутся одним регистром (`url`, `URLSession`), не так, как в Kotlin.
 
 ### Тесты
 
 - Имя класса: `<Класс>Test`. Имя теста — предложение в обратных кавычках:
   ``fun `groups identical photos from different sources`()``.
+- Исключение — инструментальные тесты Android (`androidInstrumentedTest`): имена в обратных кавычках работают на
+  Android только с API 30, а минимальная версия приложения — API 26. Там имена вида `groupsIdenticalPhotos_fromDifferentSources`.
 - Общий код тестируем в `commonTest`; платформенный — в `androidUnitTest` / `iosTest` / `desktopTest`.
 
 ---

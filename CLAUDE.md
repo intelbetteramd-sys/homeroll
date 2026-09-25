@@ -27,6 +27,10 @@ do not change the visual direction without the maintainer's approval.
 - Branches: `<type>/<issue>-<short-name>` (agent branches `claude/*` are allowed).
 - Commits and PR titles: Conventional Commits, e.g. `feat(devices): add QR pairing screen`.
   Types and scopes: `docs/process/conventions.md`.
+- Code follows `docs/process/conventions.md`, section 6, in spikes too: one top-level declaration per file
+  (private previews stay with their component), helpers in files named by content, constants in a
+  `<Area>Constants` object, packages by layer (`data/`, `domain/`, `ui/component/`, `ui/model/`), use cases end
+  in `UseCase`, design system components are named by role without a project prefix.
 - Squash merges into `main`; `main` must always build.
 - Behavior or architecture change → update `docs/` in the same PR; hard-to-reverse decision → new ADR.
 - Privacy: no analytics/ads SDKs, no network calls to third parties except the user's chosen cloud services.
