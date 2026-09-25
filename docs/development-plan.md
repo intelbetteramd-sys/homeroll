@@ -75,7 +75,7 @@ flowchart LR
 | [1.4](https://github.com/intelbetteramd-sys/pixroost/issues/21) | Dependabot для Gradle | добавить `gradle` в `.github/dependabot.yml` (GitHub Actions уже там) | приходят PR с обновлениями библиотек | 1 |
 | [1.5](https://github.com/intelbetteramd-sys/pixroost/issues/22) | Спайк S-02: галерея Android | MediaStore, сетка 10 000 превью, частичный доступ Android 14+ | прокрутка без рывков на своём телефоне, решение про пагинацию | 12 |
 | [1.6](https://github.com/intelbetteramd-sys/pixroost/issues/23) | Спайк S-04: поиск ПК в сети | mDNS `_pixroost._tcp`: NsdManager на Android, JmDNS на Windows; правило брандмауэра Windows; [развёрнутое подключение](architecture/devices-and-transfer.md#развёрнутое-подключение) без правила | телефон находит ПК за < 3 с; известно, работает ли передача без окон брандмауэра | 8 |
-| [1.7](https://github.com/intelbetteramd-sys/pixroost/issues/24) | Спайк S-03: передача на ПК | Ktor Server на ПК, самоподписанный сертификат, пиннинг на телефоне, докачка после обрыва | ≥ 20 МБ/с по Wi-Fi, обрыв посередине не ломает файл | 16 |
+| [1.7](https://github.com/intelbetteramd-sys/pixroost/issues/24) | Спайк S-03: передача на ПК | передача по [развёрнутому подключению](architecture/devices-and-transfer.md#развёрнутое-подключение), которое открывает ПК (итог S-04): ПК забирает файлы с HTTPS-сервера на телефоне или телефон отдаёт их по этому соединению сам; Ktor, самоподписанный сертификат, пиннинг, докачка после обрыва | ≥ 20 МБ/с по Wi-Fi, обрыв посередине не ломает файл | 16 |
 | [1.8](https://github.com/intelbetteramd-sys/pixroost/issues/25) | Спайк S-05: вход в облака | OAuth PKCE для Яндекса, Dropbox, Microsoft через Custom Tabs и loopback на ПК; Google Photos Picker | вход без секрета в приложении, токен в Keystore | 12 |
 | [1.9](https://github.com/intelbetteramd-sys/pixroost/issues/26) | Спайк S-06: похожие фото | pHash на 1 000 своих фото | «тот же кадр, другое качество» находится с точностью ≥ 95% | 10 |
 | [1.10](https://github.com/intelbetteramd-sys/pixroost/issues/27) | Спайк S-07: установщик Windows | `.msi` и MSIX, трей, автозапуск | ставится и запускается на чистой Windows | 8 |
@@ -124,7 +124,7 @@ iPhone, iPad и macOS в светлой и тёмной теме.
 | 4.1 | Ключи устройств | генерация ключа, Android Keystore, хранилище ключей Windows ([ADR 0007](architecture/adr/0007-device-keys-and-trust.md)) | — | 10 |
 | 4.2 | Сервер приёма на ПК | Ktor Server, TLS-сертификат из ключа ПК | — | 10 |
 | 4.3 | Сопряжение по QR | QR с одноразовым секретом на 5 минут, сканер (CameraX + ZXing), пиннинг, подтверждение на ПК, код вручную | `W-Pair`, `W-PairConfirm`, `A-Pair`, `A-PairConfirm` | 20 |
-| 4.4 | Поиск ПК | mDNS на обеих сторонах, статус «в сети / не в сети» | `A-Devices` | 6 |
+| 4.4 | Поиск ПК | рассылка «кто тут?» от ПК и ответ телефона, mDNS для прямого пути, подсказка про VPN, статус «в сети / не в сети» | `A-Devices` | 6 |
 | 4.5 | Протокол передачи | докачка, проверка SHA-256, пропуск того, что уже есть в архиве | — | 16 |
 | 4.6 | Архив | раскладка по правилу, дата файла = дата съёмки, история приёма | `W-Archive` | 12 |
 | 4.7 | Отправка на ПК | режим выбора, плавающая панель, очередь, прогресс, уведомление о передаче | `A-Select`, `A-Devices`, `A-Notifications` | 16 |
