@@ -3,6 +3,10 @@
 Что поставить на компьютер, чтобы собирать и запускать Pixroost для Android и Windows.
 Для iPhone и macOS нужен Mac — [раздел 7](#7-mac-iphone-и-macos).
 
+Команды для Windows написаны для **PowerShell** — это терминал Windows и Android Studio по умолчанию.
+Gradle там запускается как `.\gradlew`: PowerShell не ищет программы в текущей папке, поэтому без `.\`
+команда не найдётся. В старой командной строке (cmd) `.\gradlew` тоже работает.
+
 ## Что понадобится
 
 | Что | Зачем | Где взять |
@@ -54,6 +58,24 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 на результат сборки не влияет. Байткод Android-модулей — уровня 17: это совместимость с Android,
 от JDK на компьютере она не зависит.
 
+### Откуда Gradle берёт Java 21, если стоит 25
+
+Это самая частая путаница. `java -version` показывает ту Java, что первой найдена в `PATH`, а Gradle
+смотрит в другие места:
+
+| Где | Как проверить | Что сделать |
+|---|---|---|
+| Android Studio: настройка *Gradle JDK* | Settings → Build, Execution, Deployment → Build Tools → Gradle | по умолчанию там JDK, встроенная в Android Studio, — обычно это 21. Выбрать JDK 25 |
+| переменная `JAVA_HOME` — её `.\gradlew` берёт первой | `echo $env:JAVA_HOME` | указать папку JDK 25: Пуск → «Изменение системных переменных среды» → Переменные среды → `JAVA_HOME` = `C:\Program Files\Eclipse Adoptium\jdk-25…` |
+| файл проекта `gradle\gradle-daemon-jvm.properties` | `Get-Content gradle\gradle-daemon-jvm.properties` | если там `toolchainVersion=21`, проект сам просит 21. В шаблоне это не мешает |
+| `org.gradle.java.home` в `gradle.properties` | в папке проекта и в `%USERPROFILE%\.gradle` | убрать строку или указать JDK 25 |
+
+Итог показывает `.\gradlew --version`: строки *Launcher JVM* и *Daemon JVM*, а в скобках — откуда взята Java.
+После правок открыть новый терминал и выполнить `.\gradlew --stop`, чтобы старый процесс Gradle не остался на 21.
+
+Для шаблона из [раздела 6](#6-проверка) версия Java не важна: он собирается и на 21. В Pixroost после шага 1.1
+версию задаёт сам проект, и настройки компьютера на неё не влияют.
+
 ## 3. Android Studio
 
 1. Установить Android Studio. В мастере первого запуска выбрать *Standard*: он поставит Android SDK,
@@ -83,8 +105,9 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 
 ### Телефон — APK через Telegram
 
-1. Собрать APK: в Android Studio *Build → Build APK(s)* или `gradlew.bat :apps:android:assembleDebug`.
-   Файл `.apk` появится в `apps\android\build\outputs\apk\debug`.
+1. Собрать APK: в Android Studio *Build → Build APK(s)* или `.\gradlew :apps:android:assembleDebug`
+   (в шаблоне из раздела 6 — `.\gradlew :androidApp:assembleDebug`). Файл `.apk` появится в папке
+   `build\outputs\apk\debug` этого модуля.
 2. Отправить его себе в Telegram («Избранное»), открыть на телефоне, разрешить Telegram установку приложений.
 3. Новая сборка ставится поверх старой, данные сохраняются. Если телефон пишет «Приложение не установлено» —
    старая версия подписана другим ключом (например, собрана на другом ПК): удалить её и поставить заново.
@@ -117,7 +140,13 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 1. На [kmp.jetbrains.com](https://kmp.jetbrains.com) заполнить форму по таблице ниже, скачать шаблон, открыть его
    в Android Studio. В репозиторий Pixroost его не добавляем.
 2. Запустить конфигурацию Android на эмуляторе; собрать APK и поставить его на телефон через Telegram.
-3. Запустить desktop-приложение: конфигурация *desktop* или `gradlew.bat run` в модуле `composeApp`.
+3. Запустить desktop-приложение: конфигурация *desktopApp* или `.\gradlew :desktopApp:run`.
+
+Модули в шаблоне называются не так, как будут в Pixroost: `androidApp`, `desktopApp`, `shared`.
+Точный список показывает `.\gradlew projects`. Команды с `:apps:…` — только для Pixroost после шага 1.1.
+
+Предупреждение `Native task 'iosSimulatorArm64Test' is disabled` на Windows — нормально: iOS собирается
+только на Mac. Убрать его можно строкой `kotlin.native.ignoreDisabledTargets=true` в `gradle.properties`.
 
 | Поле мастера | Что указать |
 |---|---|
@@ -127,13 +156,13 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 | iOS: *Share UI* или *Do not share UI* | **Share UI** — интерфейс на Compose ([ADR 0001](../architecture/adr/0001-kotlin-multiplatform-compose.md)); нативную навигацию добавим отдельно ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)) |
 | Server, Web | не нужны |
 
-**После шага 1.1:**
+**После шага 1.1** (в папке Pixroost, не шаблона):
 
-```bash
-gradlew.bat :apps:android:installDebug   # поставить на запущенный эмулятор
-gradlew.bat :apps:android:assembleDebug  # собрать APK для телефона
-gradlew.bat :apps:desktop:run            # запустить на Windows
-gradlew.bat check                        # всё, что проверяет CI
+```powershell
+.\gradlew :apps:android:installDebug   # поставить на запущенный эмулятор
+.\gradlew :apps:android:assembleDebug  # собрать APK для телефона
+.\gradlew :apps:desktop:run            # запустить на Windows
+.\gradlew check                        # всё, что проверяет CI
 ```
 
 ## 7. Mac: iPhone и macOS
@@ -192,6 +221,9 @@ gradlew.bat check                        # всё, что проверяет CI
 | Эмулятор тормозит | закрыть лишние программы; эмулятору нужно 2–4 ГБ памяти |
 | APK: «Приложение не установлено» | удалить старую версию: её подписал другой отладочный ключ |
 | Xiaomi не даёт включить «Установка через USB» | нужна SIM-карта и Mi-аккаунт, см. раздел 4 |
+| `gradlew.bat is not recognized` | в PowerShell писать `.\gradlew` |
+| `project 'apps' not found` | команды `:apps:…` — для Pixroost после шага 1.1; в шаблоне — `:desktopApp:run`, `:androidApp:installDebug` |
+| Gradle берёт Java 21, хотя стоит 25 | [откуда он её берёт](#откуда-gradle-берёт-java-21-если-стоит-25) |
 | Gradle ругается на версию Java | *Gradle JDK* = 25 в настройках, `JAVA_HOME` указывает на JDK 25 (или 26). На Java 27 Gradle 9.7 не запускается |
 | `Filename too long` | `git config --global core.longpaths true`, короткий путь к проекту |
 | Сборка очень долгая | исключения в Defender (раздел 5) |

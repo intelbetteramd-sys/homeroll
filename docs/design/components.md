@@ -65,7 +65,7 @@
 | `PxKeyHint` | Windows, macOS | подсказка горячей клавиши | свой |
 | `PxSidebar` | macOS | стеклянный сайдбар: разделы и места | свой |
 | `PxInspector` | macOS | правая панель «Где лежит» | свой |
-| `PxTrayPanel` | Windows, macOS | трей и строка меню: статус приёма, передача, последние фото, устройства | `Tray` и окно Compose Desktop |
+| `PxTrayPanel` | Windows | трей: статус приёма, передача, последние фото, устройства; на macOS та же панель — на SwiftUI (ниже) | `Tray` и окно Compose Desktop |
 
 ## Добавлены во второй итерации
 
@@ -105,11 +105,11 @@
 | `PxGroupedList` | iPhone, iPad | Compose | группы строк со скруглением 26 и подписью под группой, как в настройках iOS |
 | `PxIosSwitch`, `PxCheckCircle` | iPhone, iPad | Compose | переключатель и круглая отметка выбора в стиле iOS |
 | `PxMacWindow` | macOS | Compose Desktop | окно с прозрачным заголовком, «светофором» и панелью инструментов |
-| `PxSidebar` | macOS | Compose Desktop | сайдбар разделов и мест; стекло — после спайка S-09, до него заливка |
+| `PxSidebar` | macOS | Compose Desktop + стекло из SwiftUI-библиотеки | сайдбар разделов и мест; под ним `NSGlassEffectView`, запасной вариант — заливка |
 | `PxMacButton`, `PxMacSwitch`, `PxMacCheckbox`, `PxMacRadio` | macOS | Compose Desktop | элементы управления AppKit по размерам Tahoe |
 | `PxMacSheet` | macOS | Compose Desktop | лист поверх окна: добавление телефона, подтверждение |
-| `PxSettingsWindow` | macOS | Compose Desktop | окно настроек с вкладками-иконками |
-| `PxMenuBarPanel` | macOS | Compose Desktop | панель из строки меню; то же, что `PxTrayPanel` |
+| Окно настроек | macOS | система | SwiftUI `Form` с вкладками-иконками в отдельном окне |
+| Панель в строке меню | macOS | система | `NSStatusItem` и всплывающая панель на SwiftUI; на Windows — `PxTrayPanel` |
 
 ## Чего ещё нет в макетах
 

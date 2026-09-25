@@ -89,7 +89,7 @@ gantt
 - [x] Информационная архитектура и сценарии — [information-architecture.md](design/information-architecture.md).
 - [x] Визуальное направление, токены светлой и тёмной темы — [README](design/README.md).
 - [x] Макеты Android, Windows, iPhone, iPad и macOS в светлой и тёмной теме — [холст](design/README.md#макеты).
-- [x] Liquid Glass на iPhone и Mac: нативная навигация, экраны на Compose — [ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md) (предложено).
+- [x] Liquid Glass на iPhone и Mac: нативная навигация, экраны на Compose, то, что Compose не умеет, — на SwiftUI ([ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md)).
 - [x] Проверки: критика, эвристики, доступность — [review-findings.md](design/review-findings.md).
 - [ ] Ревью макетов владельцем.
 - [ ] Логотип и иконка приложения.

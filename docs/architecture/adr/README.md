@@ -16,7 +16,7 @@ ADR (Architecture Decision Record) — короткая запись о реше
 | [0006](0006-apache-2-license.md) | Лицензия Apache-2.0 | Принято |
 | [0007](0007-device-keys-and-trust.md) | Двухслойные ключи устройств и модель доверия | Принято |
 | [0008](0008-android-windows-first.md) | Сначала Android и Windows, iOS и macOS — позже | Принято |
-| [0009](0009-liquid-glass-native-navigation.md) | Liquid Glass на iOS и macOS: нативная навигация, экраны на Compose | Предложено |
+| [0009](0009-liquid-glass-native-navigation.md) | Liquid Glass на iOS и macOS: нативная навигация, экраны на Compose | Принято, уточняется спайками |
 
 ## Как добавить
 
