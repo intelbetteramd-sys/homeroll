@@ -113,7 +113,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 
 ## 6. Проверка
 
-**Пока в репозитории нет кода** (до шага 1.1 [плана](../development-plan.md)):
+**Проверка среды на шаблоне** (шаг 0.3 [плана](../development-plan.md); сам шаблон в Pixroost не добавляем):
 
 1. На [kmp.jetbrains.com](https://kmp.jetbrains.com) заполнить форму по таблице ниже, скачать шаблон, открыть его
    в Android Studio. В репозиторий Pixroost его не добавляем.
