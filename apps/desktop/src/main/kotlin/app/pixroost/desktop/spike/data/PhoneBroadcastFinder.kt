@@ -15,9 +15,8 @@ import java.net.SocketTimeoutException
 
 /**
  * The reversed path: the PC broadcasts "who is there" every second and the phone answers straight back.
- * Windows lets a unicast answer to a broadcast in for a few seconds without any firewall rule —
- * this is what the spike checks. A network error (an adapter went down, a VPN came up) is reported once
- * and does not stop the search.
+ * Windows lets a unicast answer to a broadcast in without any firewall rule (spike S-04). A network error
+ * (an adapter went down, a VPN came up) is reported once and does not stop the search.
  */
 class PhoneBroadcastFinder(private val pcName: String, private val onError: (String) -> Unit) {
     private val discover = lanMessage(LanSpikeConstants.DISCOVER, "pc" to pcName).toByteArray()
@@ -69,7 +68,6 @@ class PhoneBroadcastFinder(private val pcName: String, private val onError: (Str
                 name = lanField(answer, "name") ?: host,
                 host = host,
                 port = lanField(answer, "port")?.toIntOrNull() ?: LanSpikeConstants.PHONE_PORT,
-                method = DiscoveryMethod.Broadcast,
                 foundAfterMillis = System.currentTimeMillis() - startedAt,
             )
         } else {

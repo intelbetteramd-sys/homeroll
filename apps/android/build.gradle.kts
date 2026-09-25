@@ -10,10 +10,10 @@ base {
 android {
     defaultConfig {
         applicationId = "app.pixroost"
-        // Spike S-04: installs next to the regular app instead of over it.
-        applicationIdSuffix = ".spike.lan"
+        // Spike S-03: installs next to the regular app instead of over it.
+        applicationIdSuffix = ".spike.transfer"
         versionCode = 1
-        versionName = "0.1.0-spike.s04"
+        versionName = "0.1.0-spike.s03"
     }
 }
 
@@ -23,4 +23,5 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.foundation)
     implementation(libs.compose.material3)
+    implementation(libs.ktor.client.okhttp)
 }

@@ -9,19 +9,19 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import app.pixroost.android.spike.ui.LanSpikeScreen
-import app.pixroost.android.spike.ui.LanSpikeViewModel
+import app.pixroost.android.spike.ui.TransferSpikeScreen
+import app.pixroost.android.spike.ui.TransferSpikeViewModel
 
-/** Spike S-04: the LAN discovery screen instead of the placeholder screen. */
+/** Spike S-03: the transfer screen instead of the placeholder screen. */
 class MainActivity : ComponentActivity() {
-    private val viewModel: LanSpikeViewModel by viewModels()
+    private val viewModel: TransferSpikeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme(colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()) {
-                LanSpikeScreen(viewModel)
+                TransferSpikeScreen(viewModel)
             }
         }
     }

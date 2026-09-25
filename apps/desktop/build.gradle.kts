@@ -10,6 +10,9 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(libs.compose.material3)
     implementation(libs.jmdns)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.bouncycastle.pkix)
+    testImplementation(kotlin("test"))
 }
 
 compose.desktop {

@@ -6,8 +6,10 @@ agp = "9.3.3"
 composeMultiplatform = "1.12.1"
 composeMaterial3 = "1.9.0"
 androidxActivity = "1.13.0"
-# Spike S-04 only.
+# Spikes S-03 and S-04 only.
 jmdns = "3.6.3"
+ktor = "3.6.0"
+bouncycastle = "1.86"
 
 # Code quality: docs/process/conventions.md#проверки-кода
 spotless = "8.10.2"
@@ -31,6 +33,9 @@ compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-pre
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 jmdns = { module = "org.jmdns:jmdns", version.ref = "jmdns" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+bouncycastle-pkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
 
 # Gradle plugins used by build-logic.
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }

@@ -8,4 +8,5 @@ object UiConstants {
     val CARD_PADDING = 12.dp
     val ROW_SPACING = 8.dp
     val LINE_SPACING = 4.dp
+    const val MAX_PICKED = 100
 }

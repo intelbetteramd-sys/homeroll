@@ -9,27 +9,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import app.pixroost.desktop.spike.ui.LanSpikeController
-import app.pixroost.desktop.spike.ui.LanSpikeScreen
+import app.pixroost.desktop.spike.ui.TransferSpikeController
+import app.pixroost.desktop.spike.ui.TransferSpikeScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-/** Spike S-04: the LAN discovery window instead of the placeholder screen. */
+/** Spike S-03: the transfer window instead of the placeholder screen. */
 fun main() = application {
     val controller = remember {
-        LanSpikeController(CoroutineScope(SupervisorJob() + Dispatchers.Default)).also { it.start() }
+        TransferSpikeController(CoroutineScope(SupervisorJob() + Dispatchers.Default)).also { it.start() }
     }
     Window(
         onCloseRequest = {
             controller.close()
             exitApplication()
         },
-        title = "Pixroost S-04",
+        title = "Pixroost S-03",
         state = rememberWindowState(width = 1100.dp, height = 800.dp),
     ) {
         MaterialTheme(colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()) {
-            LanSpikeScreen(controller)
+            TransferSpikeScreen(controller)
         }
     }
 }
