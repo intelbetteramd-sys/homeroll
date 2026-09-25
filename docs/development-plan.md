@@ -78,7 +78,7 @@ flowchart LR
 | [1.7](https://github.com/intelbetteramd-sys/pixroost/issues/24) | Спайк S-03: передача на ПК | передача по [развёрнутому подключению](architecture/devices-and-transfer.md#развёрнутое-подключение), которое открывает ПК (итог S-04): ПК забирает файлы с HTTPS-сервера на телефоне или телефон отдаёт их по этому соединению сам; Ktor, самоподписанный сертификат, пиннинг, докачка после обрыва | ≥ 20 МБ/с по Wi-Fi, обрыв посередине не ломает файл | 16 |
 | [1.8](https://github.com/intelbetteramd-sys/pixroost/issues/25) | Спайк S-05: вход в облака | OAuth PKCE для Яндекса, Dropbox, Microsoft через Custom Tabs и loopback на ПК; Google Photos Picker | вход без секрета в приложении, токен в Keystore | 12 |
 | [1.9](https://github.com/intelbetteramd-sys/pixroost/issues/26) | Спайк S-06: похожие фото | pHash на 1 000 своих фото | «тот же кадр, другое качество» находится с точностью ≥ 95% | 10 |
-| [1.10](https://github.com/intelbetteramd-sys/pixroost/issues/27) | Спайк S-07: установщик Windows | `.msi` и MSIX, трей, автозапуск | ставится и запускается на чистой Windows | 8 |
+| [1.10](https://github.com/intelbetteramd-sys/pixroost/issues/27) | Спайк S-07: установщик Windows | `.msi` и MSIX, трей, автозапуск; правило брандмауэра для прямого пути: `windows.firewallRules` в MSIX, действие установщика `.msi` | ставится и запускается на чистой Windows | 8 |
 | [1.11](https://github.com/intelbetteramd-sys/pixroost/issues/28) | Итоги спайков | обновить [ADR 0005](architecture/adr/0005-lan-transport.md), [стек](tech/stack.md); новое ADR, если решение поменялось | все решения записаны | 3 |
 
 ## Фаза 2 · Дизайн (остаток)
