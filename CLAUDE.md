@@ -10,8 +10,9 @@ across clouds, and sends originals to the user's own computer. Platforms: Androi
 iOS and macOS come later (see docs/architecture/adr/0008-android-windows-first.md).
 Stack: Kotlin Multiplatform + Compose Multiplatform.
 
-Status: **early development** — the Gradle skeleton (step 1.1) builds; no product features yet. Design: first mockups proposed in `docs/design/` (owner review pending);
-do not change the visual direction without the owner.
+Status: **early development** — the Gradle skeleton (step 1.1) builds; no product features yet.
+Design: first mockups proposed in `docs/design/` (review pending);
+do not change the visual direction without the maintainer's approval.
 
 ## Where things are
 
@@ -32,6 +33,8 @@ do not change the visual direction without the owner.
 - Anything that deletes user files must go through the cleanup safety policy
   (`docs/architecture/data-model.md`, "Правило безопасности удаления") and be covered by tests.
 - Never commit secrets (keystores, `.p8`, `.env`, `local.properties`).
+- Docs are public: write them for any contributor. No personal details, no "the owner knows X" or similar
+  reasoning; justify decisions by the project's needs.
 
 ## Building in a cloud session
 
