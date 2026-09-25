@@ -57,8 +57,8 @@ flowchart LR
 | № | Шаг | Что делаем | Готово, когда | Ч |
 |---|---|---|---|---:|
 | [0.1](https://github.com/intelbetteramd-sys/pixroost/issues/15) | Доделать настройки GitHub | по [настройке репозитория](process/repository-setup.md): только squash-слияние, автоудаление веток после слияния, удалить старые влитые ветки, темы (topics) в About | в Settings включено, на странице Branches только `main` | 1 |
-| [0.2](https://github.com/intelbetteramd-sys/pixroost/issues/16) | Среда разработки на Windows | по [инструкции](process/dev-environment.md): Git, JDK 21, Android Studio с плагином Kotlin Multiplatform, Android SDK, отладка по USB | `adb devices` видит телефон | 3 |
-| [0.3](https://github.com/intelbetteramd-sys/pixroost/issues/17) | Проверить среду | сгенерировать шаблон на kmp.jetbrains.com (Android + Desktop), запустить на телефоне и на Windows. В репозиторий не коммитим | оба приложения запускаются | 2 |
+| [0.2](https://github.com/intelbetteramd-sys/pixroost/issues/16) | Среда разработки на Windows | по [инструкции](process/dev-environment.md): Git, JDK 21, Android Studio с плагином Kotlin Multiplatform, Android SDK, эмулятор | `java -version` показывает 21, эмулятор запускается | 3 |
+| [0.3](https://github.com/intelbetteramd-sys/pixroost/issues/17) | Проверить среду | сгенерировать шаблон на kmp.jetbrains.com (Android + Desktop), запустить на эмуляторе и на Windows, APK поставить на телефон через Telegram. В репозиторий не коммитим | приложение работает в эмуляторе, на телефоне и на Windows | 2 |
 
 ## Фаза 1 · Каркас и спайки
 
@@ -67,9 +67,9 @@ flowchart LR
 
 | № | Шаг | Что делаем | Готово, когда | Ч |
 |---|---|---|---|---:|
-| [1.1](https://github.com/intelbetteramd-sys/pixroost/issues/18) | Каркас Gradle | `settings.gradle.kts`, `gradle/libs.versions.toml`, `build-logic` с convention-плагинами (KMP-библиотека, Compose, Android-приложение, desktop-приложение); модули `shared/core`, `shared/designsystem`, `apps/android`, `apps/desktop` по [структуре](tech/project-structure.md). iOS-таргеты объявлены, но на Windows не собираются | `gradlew :apps:android:installDebug` и `gradlew :apps:desktop:run` показывают экран «Pixroost» | 12 |
+| [1.1](https://github.com/intelbetteramd-sys/pixroost/issues/18) | Каркас Gradle | `settings.gradle.kts`, `gradle/libs.versions.toml`, `build-logic` с convention-плагинами (KMP-библиотека, Compose, Android-приложение, desktop-приложение); модули `shared/core`, `shared/designsystem`, `apps/android`, `apps/desktop` по [структуре](tech/project-structure.md). iOS-таргеты объявлены, но на Windows не собираются | `gradlew :apps:android:installDebug` на эмуляторе и `gradlew :apps:desktop:run` показывают экран «Pixroost» | 12 |
 | [1.2](https://github.com/intelbetteramd-sys/pixroost/issues/19) | Качество кода | Spotless + ktlint, detekt, Kover; правила в `.editorconfig` | `gradlew check` зелёный локально | 5 |
-| [1.3](https://github.com/intelbetteramd-sys/pixroost/issues/20) | CI | `ci.yml` по [CI/CD](tech/ci-cd.md): `check`, сборка Android, сборка desktop на Linux и Windows, кэш Gradle; проверку CI сделать обязательной в ruleset | PR с ошибкой стиля или теста не сливается | 6 |
+| [1.3](https://github.com/intelbetteramd-sys/pixroost/issues/20) | CI | `ci.yml` по [CI/CD](tech/ci-cd.md): `check`, сборка Android, сборка desktop на Linux и Windows, кэш Gradle; debug-APK как артефакт, чтобы ставить на телефон без ПК; проверку CI сделать обязательной в ruleset | PR с ошибкой стиля или теста не сливается, APK скачивается на телефоне | 6 |
 | [1.4](https://github.com/intelbetteramd-sys/pixroost/issues/21) | Dependabot для Gradle | добавить `gradle` в `.github/dependabot.yml` (GitHub Actions уже там) | приходят PR с обновлениями библиотек | 1 |
 | [1.5](https://github.com/intelbetteramd-sys/pixroost/issues/22) | Спайк S-02: галерея Android | MediaStore, сетка 10 000 превью, частичный доступ Android 14+ | прокрутка без рывков на своём телефоне, решение про пагинацию | 12 |
 | [1.6](https://github.com/intelbetteramd-sys/pixroost/issues/23) | Спайк S-04: поиск ПК в сети | mDNS `_pixroost._tcp`: NsdManager на Android, JmDNS на Windows; правило фаервола Windows | телефон находит ПК за < 3 с | 8 |
