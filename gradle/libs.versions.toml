@@ -7,6 +7,13 @@ composeMultiplatform = "1.12.1"
 composeMaterial3 = "1.9.0"
 androidxActivity = "1.13.0"
 
+# Code quality: docs/process/conventions.md#проверки-кода
+spotless = "8.10.2"
+ktlint = "1.8.0"
+# 2.0 is the line built on Kotlin 2.4; 1.23 is built on Kotlin 2.0 and cannot parse newer syntax.
+detekt = "2.0.0-alpha.6"
+kover = "0.9.9"
+
 # Android SDK levels, read by the convention plugins in build-logic.
 androidCompileSdk = "37"
 androidTargetSdk = "37"
@@ -33,6 +40,9 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 # Convention plugins from build-logic.
 pixroost-kmp-library = { id = "pixroost.kmp.library" }
