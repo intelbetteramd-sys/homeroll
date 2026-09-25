@@ -5,5 +5,17 @@
 	<!-- Compose Multiplatform needs it for 120 Hz rendering on ProMotion screens. -->
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<!-- Spike S-03: finding the PC by Bonjour and connecting to it in the local network. -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Pixroost находит ваш компьютер в домашней сети и отправляет на него фото.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_pixroost._tcp</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
