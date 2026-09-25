@@ -71,8 +71,8 @@
       Когда появятся другие участники — поставить 1.
     - ☑ Require conversation resolution before merging
     - Allowed merge methods: **Squash**
-  - ☑ **Require status checks to pass** → *Add checks* → `Conventional Commits`
-    (проверка появится в списке после первого PR; когда появится `ci.yml`, добавить и его задачи).
+  - ☑ **Require status checks to pass** → *Add checks* → `Conventional Commits`, `Build (ubuntu-latest)`,
+    `Build (windows-latest)`, `iOS` (проверки появляются в списке после первого запуска в PR).
   - ☑ **Block force pushes**
 - [ ] **Не включать** (оставить выключенными):
   - ☐ **Restrict updates** — ⚠️ заблокирует вообще любые изменения `main`, включая слияние PR;

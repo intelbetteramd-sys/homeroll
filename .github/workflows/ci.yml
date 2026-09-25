@@ -1,0 +1,136 @@
+name: CI
+
+# Checks and builds every pull request and every push to main. See docs/tech/ci-cd.md.
+# Actions are pinned by commit SHA; Dependabot keeps the pins up to date.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # A new push to a pull request cancels its previous run; runs on main always finish.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          # The open-source provider on top of the GitHub Actions cache.
+          cache-provider: basic
+
+      - name: Cache Kotlin/Native
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+
+      # The same debug key as on the developer's PC, so the APK from CI installs over a local build.
+      - name: Use the shared debug signing key
+        if: runner.os == 'Linux'
+        env:
+          DEBUG_KEYSTORE: ${{ secrets.ANDROID_DEBUG_KEYSTORE }}
+        run: |
+          if [ -n "$DEBUG_KEYSTORE" ]; then
+            mkdir -p ~/.android
+            echo "$DEBUG_KEYSTORE" | base64 --decode > ~/.android/debug.keystore
+          else
+            echo "::notice::ANDROID_DEBUG_KEYSTORE is not set, the APK is signed with a new debug key"
+          fi
+
+      - name: Check and build
+        run: ./gradlew check :apps:android:assembleDebug :apps:desktop:createDistributable
+
+      - name: Upload the APK
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: apps/android/build/outputs/apk/debug/pixroost-debug.apk
+          # A plain .apk file, so a phone can download and install it directly.
+          archive: false
+          retention-days: 14
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: reports-${{ matrix.os }}
+          path: |
+            build/reports/
+            */*/build/reports/
+          retention-days: 7
+
+  ios:
+    name: iOS
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          cache-provider: basic
+
+      - name: Cache Kotlin/Native
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+
+      - name: Kotlin tests on the simulator and the framework
+        run: ./gradlew iosSimulatorArm64Test :apps:ios-framework:linkDebugFrameworkIosSimulatorArm64
+
+      # Unsigned simulator build: the same Xcode project a developer opens, including its Gradle build phase.
+      - name: Build the app for the simulator
+        run: |
+          xcodebuild -version
+          xcodebuild build \
+            -project apps/ios/Pixroost.xcodeproj \
+            -target Pixroost \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            ARCHS=arm64 \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: reports-ios
+          path: |
+            build/reports/
+            */*/build/reports/
+          retention-days: 7
