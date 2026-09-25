@@ -1,0 +1,10 @@
+// Shared build settings of the Pixroost iOS app.
+// Personal values (signing team, a different bundle ID) go to Local.xcconfig next to this file.
+// Local.xcconfig is ignored by git; copy Local.xcconfig.example to create it.
+
+// The ".dev" suffix keeps the free Apple ID from registering the release ID app.pixroost.
+PRODUCT_BUNDLE_IDENTIFIER = app.pixroost.dev
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+#include? "Local.xcconfig"

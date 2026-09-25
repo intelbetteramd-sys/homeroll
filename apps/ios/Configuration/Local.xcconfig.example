@@ -1,0 +1,9 @@
+// Copy to Local.xcconfig (ignored by git) and fill in.
+
+// Team ID of your Apple ID, including a free Personal Team.
+// Easiest way to see it: select the team once in Xcode → target Pixroost → Signing & Capabilities,
+// then copy DEVELOPMENT_TEAM from the target's Build Settings.
+DEVELOPMENT_TEAM =
+
+// If app.pixroost.dev is taken, pick another unique suffix.
+// PRODUCT_BUNDLE_IDENTIFIER = app.pixroost.dev.yourname

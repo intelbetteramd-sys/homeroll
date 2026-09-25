@@ -182,14 +182,34 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 4. Склонировать репозиторий, например в `~/dev/pixroost`.
 5. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
 
+### Запуск в симуляторе
+
+1. В терминале из корня репозитория собрать Kotlin-часть:
+   `./gradlew :apps:ios-framework:linkDebugFrameworkIosSimulatorArm64`.
+   Первый раз Gradle скачивает компилятор Kotlin/Native (около 1 ГБ), сборка занимает 5–15 минут.
+   Этот шаг можно пропустить: Xcode сам вызывает Gradle. Но в терминале видно, что происходит и где ошибка.
+2. Открыть проект: `open apps/ios/Pixroost.xcodeproj`.
+3. Вверху окна выбрать схему **Pixroost** и симулятор iPhone, нажать ▶ (`Cmd+R`).
+   Для симулятора подпись не нужна. В приложении — четыре вкладки и поиск на SwiftUI, в каждой вкладке
+   общий экран на Compose.
+
+Симулятор работает только на Mac с Apple Silicon. На Mac с Intel — только запуск на iPhone.
+
 ### Запуск на своём iPhone
 
 1. Подключить iPhone кабелем и на iPhone нажать «Доверять этому компьютеру».
 2. Включить режим разработчика: Настройки → Конфиденциальность и безопасность → **Режим разработчика** →
    перезагрузить iPhone. Пункт появляется после первого подключения к Xcode.
-3. В Xcode-проекте (в шаблоне — `iosApp`, после шага A.2 — `apps/ios`) открыть *Signing & Capabilities*:
-   *Team* — Personal Team, *Bundle Identifier* — `app.pixroost.dev`. Суффикс `.dev` не даёт бесплатному
-   аккаунту занять `app.pixroost`. Команду и bundle ID держим в локальном `.xcconfig`, в репозиторий не коммитим.
+3. Указать команду подписи. Bundle ID уже задан: `app.pixroost.dev`, суффикс `.dev` не даёт бесплатному
+   аккаунту занять `app.pixroost`. Команда у каждого своя, поэтому она лежит в `Local.xcconfig`, который
+   не попадает в git:
+   1. `cp apps/ios/Configuration/Local.xcconfig.example apps/ios/Configuration/Local.xcconfig`.
+   2. В Xcode: target **Pixroost** → *Signing & Capabilities* → *Team* — Personal Team.
+   3. *Build Settings* → поиск `DEVELOPMENT_TEAM` → скопировать ID из 10 символов в `Local.xcconfig`.
+   4. Xcode записал команду и в сам проект — вернуть его: `git checkout apps/ios/Pixroost.xcodeproj`.
+
+   Если Xcode пишет, что `app.pixroost.dev` занят, — задать в `Local.xcconfig` свой bundle ID,
+   например `app.pixroost.dev.ivan`.
 4. Выбрать iPhone в списке устройств и нажать ▶. При первом запуске iPhone попросит доверять разработчику:
    Настройки → Основные → VPN и управление устройством → свой Apple ID → Доверять.
 5. Дальше можно без кабеля: Xcode → Window → Devices and Simulators → *Connect via network*.
@@ -202,8 +222,9 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 
 ### macOS-версия
 
-- После шага 1.1 `./gradlew :apps:desktop:run` запускает Pixroost на Mac. Для запуска на своём компьютере
-  подпись не нужна.
+- Mac-версия — это desktop-приложение на Compose (`apps/desktop`), то же, что на Windows и Linux.
+  `./gradlew :apps:desktop:run` запускает его на Mac. Для запуска на своём компьютере подпись не нужна.
+- Нативные SwiftUI-части для Mac (строка меню, стекло) появятся позже, в шаге A.6.
 - `.dmg` без подписи можно поставить себе: при первом открытии macOS его заблокирует, разрешить можно в
   Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть». Чтобы ставить на чужие Mac,
   нужны подпись Developer ID и нотаризация, то есть $99.
@@ -227,4 +248,6 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | Сборка очень долгая | исключения в Defender (раздел 5) |
 | iPhone: приложение перестало открываться через неделю | срок бесплатной подписи 7 дней: запустить из Xcode ещё раз |
 | Xcode: *No Account for Team* или *Failed to register bundle identifier* | войти Apple ID в Settings → Accounts; если bundle ID занят — другой суффикс, например `app.pixroost.dev.ivan` |
+| Xcode: `Unable to find module 'PixroostKit'` или `framework 'PixroostKit' not found` | фаза «Compile Kotlin framework» упала: ошибка выше в журнале сборки. Проще найти её, собрав Kotlin-часть в терминале (раздел 7, «Запуск в симуляторе») |
+| Xcode: `gradlew: Permission denied` | `chmod +x gradlew` в корне репозитория |
 | Xcode не видит iPhone | «Доверять этому компьютеру» на iPhone, включён режим разработчика, кабель с передачей данных |

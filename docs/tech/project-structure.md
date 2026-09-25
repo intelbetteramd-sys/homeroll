@@ -1,6 +1,7 @@
 # Структура проекта
 
 Каркас создан в шаге 1.1: `apps/android`, `apps/desktop`, `shared/core`, `shared/designsystem` и `build-logic`.
+iOS-оболочка — в шаге A.2: `apps/ios` и `apps/ios-framework`.
 Остальные модули ниже — целевая структура, они появляются по [плану](../development-plan.md).
 
 ## Дерево
@@ -10,6 +11,7 @@ pixroost/
 ├── apps/
 │   ├── android/                 # точка входа Android (Activity, манифест, иконки)
 │   ├── ios/                     # Xcode-проект: SwiftUI-оболочка, Info.plist, entitlements
+│   ├── ios-framework/           # фреймворк PixroostKit: общий код для Xcode-проекта
 │   ├── desktop/                 # точка входа desktop: окно, трей, упаковка dmg/msi/deb
 │   └── macos-native/            # Swift Package: SwiftUI и стекло для Mac, вызывается из desktop через FFM
 │
@@ -120,13 +122,24 @@ shared/<module>/src/
 
 ## iOS-оболочка
 
-- Xcode-проект в `apps/ios` подключает общий фреймворк через прямую интеграцию KMP
+- `apps/ios-framework` собирает статический фреймворк `PixroostKit` (`iosArm64`, `iosSimulatorArm64`) из модулей
+  `shared/*` и отдаёт Swift экраны Compose как функции, которые возвращают `UIViewController`.
+- Xcode-проект в `apps/ios` подключает фреймворк через прямую интеграцию KMP
   (задача Gradle `embedAndSignAppleFrameworkForXcode` в фазе сборки).
+- Файлы в `apps/ios/Pixroost/` Xcode подхватывает сам (папка синхронизируется с проектом), править `project.pbxproj`
+  ради нового Swift-файла не нужно.
+- Общие настройки сборки — `apps/ios/Configuration/Config.xcconfig`. Команда подписи и свой bundle ID — в
+  `Local.xcconfig` рядом, он не попадает в git ([как настроить](../process/dev-environment.md#запуск-на-своём-iphone)).
+- Строки SwiftUI — в String Catalog `Localizable.xcstrings`: ключ на английском, перевод на русский.
 - Swift Package-зависимости, если понадобятся, — через поддержку SwiftPM в Kotlin 2.4.
 - В Swift: `@main App`, навигация на SwiftUI (`TabView`, `NavigationStack`, `.toolbar`, `.sheet`), хост для
   экранов Compose (`ComposeUIViewController`) и всё, что Compose не умеет или делает хуже системы
   (например, камера для QR через VisionKit) — [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md).
-- `PrivacyInfo.xcprivacy` — обязателен ([privacy manifest для KMP](https://kotlinlang.org/docs/multiplatform/multiplatform-privacy-manifest.html)).
+- `apps/ios/Pixroost/PrivacyInfo.xcprivacy` — privacy manifest: трекинга нет, данные не собираются; причины для API,
+  которые вызывает Compose Multiplatform: время изменения файлов (`C617.1`) и время с загрузки системы (`35F9.1`)
+  ([privacy manifest для KMP](https://kotlinlang.org/docs/multiplatform/multiplatform-privacy-manifest.html)).
+  Когда код Pixroost начинает вызывать API из [списка Apple](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api),
+  причину добавляем в тот же файл.
 
 ## Нативные части macOS
 
