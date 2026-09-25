@@ -39,7 +39,13 @@ import coil3.ImageLoader
 
 /** Spike S-02: the gallery as a grid of 10 000+ thumbnails with frame statistics. */
 @Composable
-fun SpikeScreen(meter: JankMeter, imageLoader: ImageLoader, resumeCount: Int, refreshRateHz: Float) {
+fun SpikeScreen(
+    meter: JankMeter,
+    imageLoader: ImageLoader,
+    resumeCount: Int,
+    refreshRateHz: Float,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     var access by remember { mutableStateOf(context.mediaAccess()) }
     var scan by remember { mutableStateOf<ScanResult?>(null) }
@@ -59,7 +65,7 @@ fun SpikeScreen(meter: JankMeter, imageLoader: ImageLoader, resumeCount: Int, re
 
     val panelState = PanelState(access, scan, cells.size, options, liveStats, autoScroll)
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .windowInsetsPadding(WindowInsets.safeDrawing),
