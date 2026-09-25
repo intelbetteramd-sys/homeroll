@@ -95,7 +95,7 @@ See the full [requirements](docs/product/requirements.md) and [roadmap](docs/roa
 
 ## Tech
 
-Kotlin Multiplatform · Compose Multiplatform · SQLDelight · Ktor · Koin · Coil —
+Kotlin Multiplatform · Compose Multiplatform · Room · Ktor · Koin · Coil —
 [stack](docs/tech/stack.md) · [architecture](docs/architecture/overview.md) · [decisions](docs/architecture/adr/README.md).
 
 ## Documentation

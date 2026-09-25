@@ -130,7 +130,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 |---|---|
 | Project Name | `Pixroost` |
 | Project ID | `app.pixroost` |
-| Платформы | Android и Desktop; на Mac — ещё iOS |
+| Платформы | Android, iOS и Desktop. На Windows iOS-часть не собирается, но шаблону это не мешает |
 | iOS: *Share UI* или *Do not share UI* | **Share UI** — интерфейс на Compose ([ADR 0001](../architecture/adr/0001-kotlin-multiplatform-compose.md)); нативную навигацию добавим отдельно ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)) |
 | Server, Web | не нужны |
 

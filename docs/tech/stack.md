@@ -21,7 +21,7 @@
 | Сериализация | kotlinx.serialization (JSON) | — |
 | Сеть (клиент) | **Ktor Client 3** (OkHttp на Android и desktop, Darwin на iOS) | — |
 | Сеть (сервер приёма на ПК, relay) | **Ktor Server 3** | — |
-| Локальная БД | **SQLDelight 2** + Paging 3 | Room 3 — когда станет стабильным ([ADR 0004](../architecture/adr/0004-sqldelight.md)) |
+| Локальная БД | **Room 3** (KSP, `BundledSQLiteDriver`) + Paging 3 ([ADR 0010](../architecture/adr/0010-room3.md)) | SQLDelight 2 |
 | Настройки | DataStore (KMP) | multiplatform-settings |
 | DI | **Koin 4** | Metro, kotlin-inject |
 | Навигация | Navigation 3 (поддерживается в Compose Multiplatform с 1.10) | Decompose |

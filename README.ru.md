@@ -94,7 +94,7 @@ v1.0 выходит на **Android и Windows** (плюс Linux) — всё, ч�
 
 ## Технологии
 
-Kotlin Multiplatform · Compose Multiplatform · SQLDelight · Ktor · Koin · Coil —
+Kotlin Multiplatform · Compose Multiplatform · Room · Ktor · Koin · Coil —
 [стек](docs/tech/stack.md) · [архитектура](docs/architecture/overview.md) · [решения (ADR)](docs/architecture/adr/README.md).
 
 ## Участие

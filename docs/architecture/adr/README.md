@@ -11,12 +11,13 @@ ADR (Architecture Decision Record) — короткая запись о реше
 | [0001](0001-kotlin-multiplatform-compose.md) | Kotlin Multiplatform + Compose Multiplatform на всех платформах | Принято |
 | [0002](0002-local-first-no-backend.md) | Local-first: v1.0 без своего сервера | Принято |
 | [0003](0003-device-pairing-by-qr.md) | Связка устройств по QR вместо аккаунтов | Принято |
-| [0004](0004-sqldelight.md) | SQLDelight для локальной базы | Принято |
+| [0004](0004-sqldelight.md) | SQLDelight для локальной базы | Заменено 0010 |
 | [0005](0005-lan-transport.md) | Передача по локальной сети: HTTPS с пиннингом и докачкой | Принято, уточняется спайком |
 | [0006](0006-apache-2-license.md) | Лицензия Apache-2.0 | Принято |
 | [0007](0007-device-keys-and-trust.md) | Двухслойные ключи устройств и модель доверия | Принято |
 | [0008](0008-android-windows-first.md) | Сначала Android и Windows, iOS и macOS — позже | Принято |
 | [0009](0009-liquid-glass-native-navigation.md) | Liquid Glass на iOS и macOS: нативная навигация, экраны на Compose | Принято, уточняется спайками |
+| [0010](0010-room3.md) | Room 3 для локальной базы | Принято, заменяет 0004 |
 
 ## Как добавить
 
