@@ -17,15 +17,16 @@
 </p>
 
 <p align="center">
-  <img alt="Status: planning" src="https://img.shields.io/badge/status-planning-orange">
+  <img alt="Status: early development" src="https://img.shields.io/badge/status-early%20development-orange">
   <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20Windows-lightgrey">
   <img alt="Kotlin Multiplatform" src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
 </p>
 
 > [!NOTE]
-> Pixroost is in the **planning stage** — there is no code yet. This repository holds the product plan,
-> architecture and conventions. Follow the [roadmap](docs/roadmap.md).
+> Pixroost is in **early development**: the project skeleton builds for Android and desktop, product features
+> are not there yet. This repository also holds the product plan, architecture and conventions.
+> Follow the [roadmap](docs/roadmap.md).
 
 ## Why
 

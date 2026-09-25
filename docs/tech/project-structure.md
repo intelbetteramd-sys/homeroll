@@ -1,6 +1,7 @@
 # Структура проекта
 
-Код ещё не создан. Ниже — целевая структура, которую создаём в Фазе 1.
+Каркас создан в шаге 1.1: `apps/android`, `apps/desktop`, `shared/core`, `shared/designsystem` и `build-logic`.
+Остальные модули ниже — целевая структура, они появляются по [плану](../development-plan.md).
 
 ## Дерево
 
@@ -48,6 +49,25 @@ pixroost/
 ├── gradle/libs.versions.toml    # версии зависимостей
 └── docs/                        # документация
 ```
+
+## Сборка
+
+- Версии библиотек и плагинов — в `gradle/libs.versions.toml`, уровни Android SDK — там же
+  (`androidCompileSdk`, `androidTargetSdk`, `androidMinSdk`).
+- Общие настройки модулей — convention-плагины в `build-logic`:
+
+| Плагин | Для чего | Что делает |
+|---|---|---|
+| `pixroost.kmp.library` | модули `shared/*` | Kotlin Multiplatform: Android, desktop (`jvm("desktop")`), `iosArm64`, `iosSimulatorArm64`; JDK 25; байткод Android — Java 17; `commonTest` запускается и на desktop, и как Android host-тесты |
+| `pixroost.compose` | модули `shared/*` с интерфейсом | Compose Multiplatform: runtime, foundation, ui, Material 3 |
+| `pixroost.android.application` | `apps/android` | Android-приложение на AGP 9 со встроенной поддержкой Kotlin и Compose |
+| `pixroost.desktop.application` | `apps/desktop` | Compose for Desktop на JVM 25 |
+
+- Namespace модуля выводится из пути: `:shared:sources:yandex` → `app.pixroost.sources.yandex`.
+- Gradle сам запускается на JDK 25 (`gradle/gradle-daemon-jvm.properties`), компиляция — через toolchain Gradle.
+  Подробности — [JDK 25](../process/jdk.md).
+- iOS-таргеты объявлены во всех `shared`-модулях и собираются только на macOS; на Windows и Linux Gradle
+  их пропускает (`kotlin.native.ignoreDisabledTargets=true`).
 
 ## Правила зависимостей между модулями
 

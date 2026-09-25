@@ -10,7 +10,7 @@ across clouds, and sends originals to the user's own computer. Platforms: Androi
 iOS and macOS come later (see docs/architecture/adr/0008-android-windows-first.md).
 Stack: Kotlin Multiplatform + Compose Multiplatform.
 
-Status: **planning** — no code yet. Design: first mockups proposed in `docs/design/` (owner review pending);
+Status: **early development** — the Gradle skeleton (step 1.1) builds; no product features yet. Design: first mockups proposed in `docs/design/` (owner review pending);
 do not change the visual direction without the owner.
 
 ## Where things are

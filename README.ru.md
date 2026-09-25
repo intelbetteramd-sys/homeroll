@@ -17,15 +17,15 @@
 </p>
 
 <p align="center">
-  <img alt="Статус: планирование" src="https://img.shields.io/badge/status-planning-orange">
+  <img alt="Статус: ранняя разработка" src="https://img.shields.io/badge/status-early%20development-orange">
   <img alt="Платформы" src="https://img.shields.io/badge/platforms-Android%20%7C%20Windows-lightgrey">
   <img alt="Kotlin Multiplatform" src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white">
   <a href="LICENSE"><img alt="Лицензия: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
 </p>
 
 > [!NOTE]
-> Pixroost на этапе **планирования** — кода пока нет. Здесь лежат план продукта, архитектура и конвенции.
-> Следите за [роадмапом](docs/roadmap.md).
+> Pixroost на этапе **ранней разработки**: каркас проекта собирается для Android и desktop, функций продукта
+> ещё нет. Здесь же лежат план продукта, архитектура и конвенции. Следите за [роадмапом](docs/roadmap.md).
 
 ## Зачем
 
