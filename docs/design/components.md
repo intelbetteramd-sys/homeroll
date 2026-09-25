@@ -53,8 +53,8 @@
 | `PxNavigationRail` | планшет Android | rail с кнопкой «Отправить на ПК» | `NavigationRail` |
 | `PxFloatingToolbar` | Android | действия с выбранными фото | плавающая панель Material 3 Expressive, если есть в версии Compose Multiplatform; иначе своя |
 | `PxWhereSheet` / `PxWherePane` | телефон / планшет и ПК | «Где лежит»: лист снизу или панель справа | `ModalBottomSheet` / свой |
-| `PxGlassTabBar` | iPhone | плавающая стеклянная панель вкладок и кнопка поиска | системная панель через interop или имитация — решить в спайке |
-| `PxGlassButton` | iPhone, macOS | кнопка на стекле поверх фото или в панели инструментов | то же |
+| `PxGlassTabBar` | iPhone | плавающая стеклянная панель вкладок и кнопка поиска | не Compose: `TabView` в SwiftUI ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)) |
+| `PxGlassButton` | iPhone, macOS | кнопка на стекле поверх фото или в панели инструментов | на iPhone — `.toolbar` в SwiftUI; поверх фото в Compose — запасной путь через `UIKitView` |
 | `PxLargeTitle` | iPhone | крупный заголовок и кнопки на стекле | свой |
 | `PxNavigationPane` | Windows | левая навигация с индикатором, статус приёма внизу | свой по образцу NavigationView |
 | `PxTitleBar` | Windows | заголовок окна с поиском | `WindowDraggableArea` в Compose Desktop |
@@ -87,6 +87,29 @@
 | `PxStatTile` | Windows | число и подпись | импорт Google Takeout | свой |
 | `PxBreadcrumb` | Windows | путь «Хранилища › Импорт» | импорт Google Takeout | свой |
 | `PxNotification` | Android | уведомления: передача с прогрессом, «почти заполнен», «всё сохранено», «ждёт ПК» | уведомления | `NotificationCompat` (не Compose) |
+
+## iOS и macOS (третья итерация)
+
+Кто что рисует — по [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md). «Система» — нативный компонент SwiftUI, его в `:shared:designsystem` нет.
+Все образцы — на доске `DS-Apple` холста.
+
+| Элемент | Платформа | Кто рисует | Основа |
+|---|---|---|---|
+| Панель вкладок и кнопка поиска | iPhone | система | `TabView`, роль поиска у вкладки |
+| Сайдбар разделов | iPad | система | `TabView` с `.sidebarAdaptable` |
+| Заголовок, «назад», кнопки на стекле | iPhone, iPad | система | `NavigationStack`, `.toolbar`; символ и подпись — в разных группах |
+| Главное действие | iPhone, iPad | система | `.buttonStyle(.glassProminent)`, одно на экран |
+| Панель действий с выбранными | iPhone | система | нижний `.toolbar` |
+| Листы: «Где лежит», подтверждение, подключение | iPhone | система | `.sheet` с уровнями высоты, содержимое — Compose |
+| `PxEdgeFade` | iPhone, iPad | Compose | мягкое затухание контента у стеклянных панелей: системный эффект края прокрутки со скроллом Compose не работает |
+| `PxGroupedList` | iPhone, iPad | Compose | группы строк со скруглением 26 и подписью под группой, как в настройках iOS |
+| `PxIosSwitch`, `PxCheckCircle` | iPhone, iPad | Compose | переключатель и круглая отметка выбора в стиле iOS |
+| `PxMacWindow` | macOS | Compose Desktop | окно с прозрачным заголовком, «светофором» и панелью инструментов |
+| `PxSidebar` | macOS | Compose Desktop | сайдбар разделов и мест; стекло — после спайка S-09, до него заливка |
+| `PxMacButton`, `PxMacSwitch`, `PxMacCheckbox`, `PxMacRadio` | macOS | Compose Desktop | элементы управления AppKit по размерам Tahoe |
+| `PxMacSheet` | macOS | Compose Desktop | лист поверх окна: добавление телефона, подтверждение |
+| `PxSettingsWindow` | macOS | Compose Desktop | окно настроек с вкладками-иконками |
+| `PxMenuBarPanel` | macOS | Compose Desktop | панель из строки меню; то же, что `PxTrayPanel` |
 
 ## Чего ещё нет в макетах
 

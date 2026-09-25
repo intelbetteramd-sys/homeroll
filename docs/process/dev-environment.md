@@ -1,14 +1,14 @@
-# Среда разработки на Windows
+# Среда разработки: Windows и Mac
 
 Что поставить на компьютер, чтобы собирать и запускать Pixroost для Android и Windows.
-Mac и Xcode нужны только на [этапе «iOS и macOS»](../roadmap.md#этап-ios-и-macos).
+Для iPhone и macOS нужен Mac — [раздел 7](#7-mac-iphone-и-macos).
 
 ## Что понадобится
 
 | Что | Зачем | Где взять |
 |---|---|---|
 | Git для Windows | работа с репозиторием | [git-scm.com](https://git-scm.com/download/win) |
-| JDK 21 (Eclipse Temurin) | Gradle из командной строки и desktop-приложение | [adoptium.net](https://adoptium.net/temurin/releases/?version=21) |
+| JDK 25 (Eclipse Temurin) | Gradle из командной строки и desktop-приложение | [adoptium.net](https://adoptium.net/temurin/releases/?version=25) |
 | Android Studio, последняя стабильная | IDE, Android SDK, эмулятор | [developer.android.com/studio](https://developer.android.com/studio) |
 | Плагин **Kotlin Multiplatform** | запуск desktop-приложения и общего кода из IDE | Android Studio → Settings → Plugins → Marketplace |
 | Эмулятор Android | каждодневный запуск и отладка, кабель не нужен | ставится вместе с Android Studio |
@@ -37,19 +37,30 @@ Mac и Xcode нужны только на [этапе «iOS и macOS»](../roadm
    git config commit.template .gitmessage     # подсказка формата коммита
    ```
 
-## 2. JDK 21
+## 2. JDK 25
 
-1. Установить Temurin 21 (MSI). В установщике включить *Set JAVA_HOME* и *Add to PATH*.
-2. Проверить в новом терминале: `java -version` показывает 21.
+1. Установить Temurin 25 (MSI). В установщике включить *Set JAVA_HOME* и *Add to PATH*.
+2. Проверить в новом терминале: `java -version` показывает 25.
 
-Android Studio приносит свою JDK, но отдельная JDK 21 нужна, чтобы `gradlew` работал из терминала так же, как в CI.
+Android Studio приносит свою JDK, но отдельная JDK нужна, чтобы `gradlew` работал из терминала так же, как в CI.
+
+**Почему 25, а не новее.** JDK 25 — LTS: обновления безопасности выходят годами. Desktop-версия везёт JDK
+внутри установщика, поэтому версия с долгой поддержкой важна и для пользователей. 26 — промежуточный
+выпуск: обновления для него закончились, когда 15 сентября 2026 вышла 27. А 27 Gradle 9.7 пока
+не умеет запускать.
+
+**Если уже стоит Java 26** — удалять не нужно. Gradle 9.4 и новее на ней работает, а JDK 25 для сборки
+проект после шага 1.1 скачает сам: версия задана в toolchain Gradle. Какая JDK стоит на компьютере,
+на результат сборки не влияет. Байткод Android-модулей — уровня 17: это совместимость с Android,
+от JDK на компьютере она не зависит.
 
 ## 3. Android Studio
 
 1. Установить Android Studio. В мастере первого запуска выбрать *Standard*: он поставит Android SDK,
    Platform-Tools и эмулятор.
 2. Settings → Plugins → Marketplace → **Kotlin Multiplatform** → Install → перезапустить IDE.
-3. Settings → Build, Execution, Deployment → Build Tools → Gradle → *Gradle JDK* = JDK 21.
+3. Settings → Build, Execution, Deployment → Build Tools → Gradle → *Gradle JDK* = JDK 25
+   (или *Download JDK…* → версия 25, если отдельная ещё не стоит).
 4. Settings → Languages & Frameworks → Android SDK: в *SDK Platforms* отмечена последняя стабильная версия
    Android, в *SDK Tools* — Android SDK Build-Tools и Platform-Tools.
 
@@ -103,10 +114,18 @@ Android Studio приносит свою JDK, но отдельная JDK 21 н�
 
 **Пока в репозитории нет кода** (до шага 1.1 [плана](../development-plan.md)):
 
-1. На [kmp.jetbrains.com](https://kmp.jetbrains.com) выбрать Android и Desktop, скачать шаблон, открыть его
+1. На [kmp.jetbrains.com](https://kmp.jetbrains.com) заполнить форму по таблице ниже, скачать шаблон, открыть его
    в Android Studio. В репозиторий Pixroost его не добавляем.
 2. Запустить конфигурацию Android на эмуляторе; собрать APK и поставить его на телефон через Telegram.
 3. Запустить desktop-приложение: конфигурация *desktop* или `gradlew.bat run` в модуле `composeApp`.
+
+| Поле мастера | Что указать |
+|---|---|
+| Project Name | `Pixroost` |
+| Project ID | `app.pixroost` |
+| Платформы | Android и Desktop; на Mac — ещё iOS |
+| iOS: *Share UI* или *Do not share UI* | **Share UI** — интерфейс на Compose ([ADR 0001](../architecture/adr/0001-kotlin-multiplatform-compose.md)); нативную навигацию добавим отдельно ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)) |
+| Server, Web | не нужны |
 
 **После шага 1.1:**
 
@@ -117,6 +136,54 @@ gradlew.bat :apps:desktop:run            # запустить на Windows
 gradlew.bat check                        # всё, что проверяет CI
 ```
 
+## 7. Mac: iPhone и macOS
+
+Всё бесплатно: Apple Developer Program ($99 в год) нужна только для публикации. Что делать по шагам —
+[трек Apple](../development-plan.md#трек-apple--параллельно-и-бесплатно) в плане.
+
+| Что | Зачем | Где взять |
+|---|---|---|
+| macOS, последняя стабильная | свежий Xcode требует свежую macOS | Системные настройки → Основные → Обновление ПО |
+| Xcode, последний стабильный | сборка iOS, симулятор, установка на iPhone | App Store |
+| JDK 25 (Eclipse Temurin) | Gradle | установщик `.pkg` с [adoptium.net](https://adoptium.net/temurin/releases/?version=25) |
+| Android Studio или IntelliJ IDEA + плагин **Kotlin Multiplatform** | запуск iOS- и desktop-версий из IDE | [developer.android.com/studio](https://developer.android.com/studio) |
+| Apple ID | подпись для своего iPhone | уже есть, бесплатно |
+
+### Установка
+
+1. Установить Xcode и один раз открыть: принять лицензию и поставить компоненты iOS, которые он предложит.
+2. Проверить в терминале: `xcode-select -p` показывает путь внутри `Xcode.app`.
+   Если нет — `sudo xcode-select --switch /Applications/Xcode.app`.
+3. JDK 25 и IDE с плагином — как в разделах 2 и 3.
+4. Склонировать репозиторий, например в `~/dev/pixroost`.
+5. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
+
+### Запуск на своём iPhone
+
+1. Подключить iPhone кабелем и на iPhone нажать «Доверять этому компьютеру».
+2. Включить режим разработчика: Настройки → Конфиденциальность и безопасность → **Режим разработчика** →
+   перезагрузить iPhone. Пункт появляется после первого подключения к Xcode.
+3. В Xcode-проекте (в шаблоне — `iosApp`, после шага A.2 — `apps/ios`) открыть *Signing & Capabilities*:
+   *Team* — Personal Team, *Bundle Identifier* — `app.pixroost.dev`. Суффикс `.dev` не даёт бесплатному
+   аккаунту занять `app.pixroost`. Команду и bundle ID держим в локальном `.xcconfig`, в репозиторий не коммитим.
+4. Выбрать iPhone в списке устройств и нажать ▶. При первом запуске iPhone попросит доверять разработчику:
+   Настройки → Основные → VPN и управление устройством → свой Apple ID → Доверять.
+5. Дальше можно без кабеля: Xcode → Window → Devices and Simulators → *Connect via network*.
+
+Ограничения бесплатного Apple ID:
+
+- приложение работает **7 дней**, потом не открывается. Лечится повторной установкой из Xcode, данные сохраняются;
+- на устройстве — не больше 3 своих приложений одновременно;
+- нет TestFlight, App Store и push-уведомлений. Для разработки Pixroost они не нужны.
+
+### macOS-версия
+
+- После шага 1.1 `./gradlew :apps:desktop:run` запускает Pixroost на Mac. Для запуска на своём компьютере
+  подпись не нужна.
+- `.dmg` без подписи можно поставить себе: при первом открытии macOS его заблокирует, разрешить можно в
+  Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть». Чтобы ставить на чужие Mac,
+  нужны подпись Developer ID и нотаризация, то есть $99.
+
 ## Если что-то не работает
 
 | Симптом | Что сделать |
@@ -125,6 +192,9 @@ gradlew.bat check                        # всё, что проверяет CI
 | Эмулятор тормозит | закрыть лишние программы; эмулятору нужно 2–4 ГБ памяти |
 | APK: «Приложение не установлено» | удалить старую версию: её подписал другой отладочный ключ |
 | Xiaomi не даёт включить «Установка через USB» | нужна SIM-карта и Mi-аккаунт, см. раздел 4 |
-| Gradle ругается на версию Java | *Gradle JDK* = 21 в настройках, `JAVA_HOME` указывает на JDK 21 |
+| Gradle ругается на версию Java | *Gradle JDK* = 25 в настройках, `JAVA_HOME` указывает на JDK 25 (или 26). На Java 27 Gradle 9.7 не запускается |
 | `Filename too long` | `git config --global core.longpaths true`, короткий путь к проекту |
 | Сборка очень долгая | исключения в Defender (раздел 5) |
+| iPhone: приложение перестало открываться через неделю | срок бесплатной подписи 7 дней: запустить из Xcode ещё раз |
+| Xcode: *No Account for Team* или *Failed to register bundle identifier* | войти Apple ID в Settings → Accounts; если bundle ID занят — другой суффикс, например `app.pixroost.dev.ivan` |
+| Xcode не видит iPhone | «Доверять этому компьютеру» на iPhone, включён режим разработчика, кабель с передачей данных |
