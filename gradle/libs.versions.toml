@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.4.20"
 # Not newer than the latest stable Android Studio supports: Quail 2 and 3 support AGP up to 9.3.
-# https://developer.android.com/build/releases/about-agp
+# https://developer.android.com/build/releases/about-agp. Dependabot proposes only patch updates for it.
 agp = "9.3.3"
 composeMultiplatform = "1.12.1"
 composeMaterial3 = "1.9.0"

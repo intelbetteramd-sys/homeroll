@@ -11,7 +11,7 @@ GitHub Actions. Для **публичных** репозиториев мину�
 | [`pr-title.yml`](../../.github/workflows/pr-title.yml) | проверяет, что заголовок PR соответствует [Conventional Commits](../process/conventions.md#2-коммиты) |
 | [`labels.yml`](../../.github/workflows/labels.yml) | создаёт и обновляет лейблы из [`.github/labels.yml`](../../.github/labels.yml) |
 | [`roadmap-setup.yml`](../../.github/workflows/roadmap-setup.yml) | вручную: привязывает эпики к вехам и лейблам |
-| [`dependabot.yml`](../../.github/dependabot.yml) | раз в неделю обновляет GitHub Actions (Gradle добавим, когда появится сборка) |
+| [`dependabot.yml`](../../.github/dependabot.yml) | раз в неделю обновляет GitHub Actions и зависимости Gradle: Kotlin с Compose и AndroidX — группами; AGP — только патч-версии, минорные поднимаем вручную, когда их поддерживает стабильная Android Studio |
 
 ## `ci.yml` — на каждый PR и push в `main`
 

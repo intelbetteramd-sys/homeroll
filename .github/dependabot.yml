@@ -1,4 +1,4 @@
-# Version updates. Gradle is added in step 1.4 of docs/development-plan.md, when the build exists.
+# Version updates, once a week. PR titles follow Conventional Commits (docs/process/conventions.md).
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -10,4 +10,29 @@ updates:
         patterns: ["*"]
     commit-message:
       prefix: ci
+    labels: ["dependencies"]
+
+  # Libraries and plugins from gradle/libs.versions.toml, and the Gradle wrapper.
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      # The Compose compiler ships with Kotlin, and Compose Multiplatform follows Kotlin releases.
+      kotlin-compose:
+        patterns:
+          - "org.jetbrains.kotlin:*"
+          - "org.jetbrains.kotlin.*"
+          - "org.jetbrains.compose*"
+      androidx:
+        patterns:
+          - "androidx.*"
+    ignore:
+      # Android Studio syncs only with AGP versions it knows. Patch releases come automatically; a new
+      # minor version is raised by hand once the stable Android Studio supports it
+      # (https://developer.android.com/build/releases/about-agp).
+      - dependency-name: "com.android*"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+    commit-message:
+      prefix: build
     labels: ["dependencies"]
