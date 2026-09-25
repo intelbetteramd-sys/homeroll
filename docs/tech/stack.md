@@ -34,6 +34,7 @@
 | QR: генерация | qrcode-kotlin | ZXing |
 | QR: сканирование | CameraX + ZXing (Android), AVFoundation / VisionKit (iOS) | ML Kit — не берём: проприетарный, мешает F-Droid |
 | mDNS | NsdManager (Android), Network.framework (iOS), JmDNS (desktop) | — |
+| Поиск телефона с ПК | рассылка «кто тут?» по UDP (`DatagramSocket` JDK), без библиотек | mDNS: без правила брандмауэра Windows ПК его не слышит |
 | OAuth | системный браузер + PKCE: Custom Tabs (Android), `ASWebAuthenticationSession` (iOS), loopback-редирект (desktop) | AppAuth |
 | Фоновая работа | WorkManager (Android), BGTaskScheduler + background URLSession (iOS) | — |
 | Безопасное хранение | Keychain, Android Keystore, java-keyring (desktop) | — |
