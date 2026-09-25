@@ -33,7 +33,8 @@ jobs:
             chore
             revert
           requireScope: false
-          subjectPattern: ^(?![A-Z]).+$
+          # Dependabot capitalizes its titles ("ci: Bump the actions group ..."), everyone else starts lowercase.
+          subjectPattern: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && '^.+$' || '^(?![A-Z]).+$' }}
           subjectPatternError: |
             The subject "{subject}" in PR title "{title}" must start with a lowercase letter.
             Example: "feat(devices): add QR pairing screen". See docs/process/conventions.md
