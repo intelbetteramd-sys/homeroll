@@ -8,6 +8,9 @@ GitHub Actions. Для **публичных** репозиториев мину�
 | Workflow | Что делает |
 |---|---|
 | [`pr-title.yml`](../../.github/workflows/pr-title.yml) | проверяет, что заголовок PR соответствует [Conventional Commits](../process/conventions.md#2-коммиты) |
+| [`labels.yml`](../../.github/workflows/labels.yml) | создаёт и обновляет лейблы из [`.github/labels.yml`](../../.github/labels.yml) |
+| [`roadmap-setup.yml`](../../.github/workflows/roadmap-setup.yml) | вручную: привязывает эпики к вехам и лейблам |
+| [`dependabot.yml`](../../.github/dependabot.yml) | раз в неделю обновляет GitHub Actions (Gradle добавим, когда появится сборка) |
 
 ## План
 
@@ -17,7 +20,7 @@ GitHub Actions. Для **публичных** репозиториев мину�
 |---|---|---|
 | `lint` | ubuntu | Spotless (ktlint), detekt |
 | `test-shared` | ubuntu | unit-тесты `commonTest` на JVM, Kover |
-| `android` | ubuntu | сборка debug APK, unit-тесты Android |
+| `android` | ubuntu | сборка debug APK, unit-тесты Android; APK — артефакт сборки, его можно скачать прямо на телефоне |
 | `desktop` | ubuntu | сборка desktop, `desktopTest` |
 | `ios` | macos | сборка фреймворка и приложения для симулятора, `iosTest` |
 | `db` | ubuntu | проверка миграций SQLDelight |
