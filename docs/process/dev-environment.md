@@ -63,6 +63,15 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
    ([подробнее](jdk.md#3-android-studio)).
 4. Settings → Languages & Frameworks → Android SDK: в *SDK Platforms* отмечена последняя стабильная версия
    Android, в *SDK Tools* — Android SDK Build-Tools и Platform-Tools.
+5. Задать `ANDROID_HOME`, чтобы `.\gradlew` в терминале находил Android SDK в любой папке проекта.
+   Android Studio пишет путь в `local.properties` сама, но только после синхронизации проекта. Одной командой
+   в PowerShell, затем открыть новое окно терминала:
+
+   ```powershell
+   [Environment]::SetEnvironmentVariable("ANDROID_HOME", "$env:LOCALAPPDATA\Android\Sdk", "User")
+   ```
+
+   Путь к SDK показан в Settings → Languages & Frameworks → Android SDK → *Android SDK Location*.
 
 ## 4. Где запускать Android-версию
 
@@ -134,7 +143,14 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | iOS: *Share UI* или *Do not share UI* | **Share UI** — интерфейс на Compose ([ADR 0001](../architecture/adr/0001-kotlin-multiplatform-compose.md)); нативную навигацию добавим отдельно ([ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md)) |
 | Server, Web | не нужны |
 
-**После шага 1.1** (в папке Pixroost, не шаблона):
+**После шага 1.1** (в папке Pixroost, не шаблона).
+
+Первый раз открыть проект в Android Studio: File → Open → папка `pixroost` → дождаться, пока внизу закончится
+синхронизация Gradle. Запустить её вручную: File → **Sync Project with Gradle Files** (в новом интерфейсе
+меню File — под кнопкой ☰ слева вверху), сочетание `Ctrl+Shift+O` или круглые стрелки в панели **Gradle**
+справа. После синхронизации в списке конфигураций запуска появится `android`.
+
+Из терминала:
 
 ```powershell
 .\gradlew :apps:android:installDebug   # поставить на запущенный эмулятор
@@ -162,6 +178,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 2. Проверить в терминале: `xcode-select -p` показывает путь внутри `Xcode.app`.
    Если нет — `sudo xcode-select --switch /Applications/Xcode.app`.
 3. JDK 25 — по [инструкции для Mac](jdk.md#mac), IDE с плагином — как в разделе 3.
+   `ANDROID_HOME` на Mac: `echo 'export ANDROID_HOME=$HOME/Library/Android/sdk' >> ~/.zshrc`.
 4. Склонировать репозиторий, например в `~/dev/pixroost`.
 5. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
 
@@ -195,6 +212,8 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 
 | Симптом | Что сделать |
 |---|---|
+| `SDK location not found` | задать `ANDROID_HOME` (раздел 3, шаг 5) или один раз синхронизировать проект в Android Studio — она создаст `local.properties` |
+| В Android Studio нет синхронизации Gradle и панели **Gradle** | проект открыт не как Gradle-проект: File → Open → выбрать `settings.gradle.kts` в папке `pixroost` → *Open as Project*; или нажать *Load Gradle Project* во всплывающем уведомлении |
 | Эмулятор не запускается или просит ускорение | включить «Платформу низкоуровневой оболочки Windows» и виртуализацию в BIOS |
 | Эмулятор тормозит | закрыть лишние программы; эмулятору нужно 2–4 ГБ памяти |
 | APK: «Приложение не установлено» | удалить старую версию: её подписал другой отладочный ключ |
