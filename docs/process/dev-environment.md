@@ -169,7 +169,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | macOS, последняя стабильная | свежий Xcode требует свежую macOS | Системные настройки → Основные → Обновление ПО |
 | Xcode, последний стабильный | сборка iOS, симулятор, установка на iPhone | App Store |
 | JDK 25 (Eclipse Temurin) | Gradle | [инструкция для Mac](jdk.md#mac) |
-| Android Studio или IntelliJ IDEA + плагин **Kotlin Multiplatform** | запуск iOS- и desktop-версий из IDE | [developer.android.com/studio](https://developer.android.com/studio) |
+| Android Studio или IntelliJ IDEA + плагин **Kotlin Multiplatform** | необязательно: iOS- и Mac-версии собираются из терминала и Xcode, Android SDK для них не нужен | [developer.android.com/studio](https://developer.android.com/studio) |
 | Apple ID | подпись для своего iPhone | уже есть, бесплатно |
 
 ### Установка
@@ -177,10 +177,12 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 1. Установить Xcode и один раз открыть: принять лицензию и поставить компоненты iOS, которые он предложит.
 2. Проверить в терминале: `xcode-select -p` показывает путь внутри `Xcode.app`.
    Если нет — `sudo xcode-select --switch /Applications/Xcode.app`.
-3. JDK 25 — по [инструкции для Mac](jdk.md#mac), IDE с плагином — как в разделе 3.
-   `ANDROID_HOME` на Mac: `echo 'export ANDROID_HOME=$HOME/Library/Android/sdk' >> ~/.zshrc`.
-4. Склонировать репозиторий, например в `~/dev/pixroost`.
-5. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
+3. JDK 25 — по [инструкции для Mac](jdk.md#mac), из `.pkg`. Xcode не читает `~/.zshrc`, поэтому Gradle в сборке
+   Xcode находит Java сам через `/usr/libexec/java_home` — там видны JDK, установленные из `.pkg`.
+4. Только если собирать на Mac и Android-версию: Android Studio с плагином — как в разделе 3, и
+   `echo 'export ANDROID_HOME=$HOME/Library/Android/sdk' >> ~/.zshrc`.
+5. Склонировать репозиторий, например в `~/dev/pixroost`.
+6. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
 
 ### Запуск в симуляторе
 
@@ -249,5 +251,6 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | iPhone: приложение перестало открываться через неделю | срок бесплатной подписи 7 дней: запустить из Xcode ещё раз |
 | Xcode: *No Account for Team* или *Failed to register bundle identifier* | войти Apple ID в Settings → Accounts; если bundle ID занят — другой суффикс, например `app.pixroost.dev.ivan` |
 | Xcode: `Unable to find module 'PixroostKit'` или `framework 'PixroostKit' not found` | фаза «Compile Kotlin framework» упала: ошибка выше в журнале сборки. Проще найти её, собрав Kotlin-часть в терминале (раздел 7, «Запуск в симуляторе») |
+| Xcode: `Unable to locate a Java Runtime` или ошибка версии Java | поставить JDK 25 из `.pkg` ([инструкция](jdk.md#mac)); `/usr/libexec/java_home -V` должен показать Temurin 25 |
 | Xcode: `gradlew: Permission denied` | `chmod +x gradlew` в корне репозитория |
 | Xcode не видит iPhone | «Доверять этому компьютеру» на iPhone, включён режим разработчика, кабель с передачей данных |
