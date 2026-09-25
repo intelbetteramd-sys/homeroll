@@ -54,6 +54,8 @@ pixroost/
 
 - Версии библиотек и плагинов — в `gradle/libs.versions.toml`, уровни Android SDK — там же
   (`androidCompileSdk`, `androidTargetSdk`, `androidMinSdk`).
+- Android Gradle plugin — не новее версии, которую поддерживает последняя стабильная Android Studio
+  ([таблица совместимости](https://developer.android.com/build/releases/about-agp)); иначе проект не синхронизируется.
 - Общие настройки модулей — convention-плагины в `build-logic`:
 
 | Плагин | Для чего | Что делает |

@@ -219,6 +219,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | APK: «Приложение не установлено» | удалить старую версию: её подписал другой отладочный ключ |
 | Xiaomi не даёт включить «Установка через USB» | нужна SIM-карта и Mi-аккаунт, см. раздел 4 |
 | `gradlew.bat is not recognized` | в PowerShell писать `.\gradlew` |
+| `The project is using an incompatible version (AGP …)` | обновить Android Studio: Help → Check for Updates (на Mac — Android Studio → Check for Updates). Проект держит версию AGP, которую поддерживает последняя стабильная Android Studio |
 | `project 'apps' not found` | команды `:apps:…` — для Pixroost после шага 1.1; в шаблоне — `:desktopApp:run`, `:androidApp:installDebug` |
 | Gradle берёт Java 21, хотя стоит 25 | [откуда она берётся и что сделать](jdk.md#если-всё-равно-21) |
 | Gradle ругается на версию Java | *Gradle JDK* = 25 в настройках, `JAVA_HOME` указывает на JDK 25 (или 26). На Java 27 Gradle 9.7 не запускается |

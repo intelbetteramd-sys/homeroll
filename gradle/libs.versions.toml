@@ -1,6 +1,8 @@
 [versions]
 kotlin = "2.4.20"
-agp = "9.4.1"
+# Not newer than the latest stable Android Studio supports: Quail 2 and 3 support AGP up to 9.3.
+# https://developer.android.com/build/releases/about-agp
+agp = "9.3.3"
 composeMultiplatform = "1.12.1"
 composeMaterial3 = "1.9.0"
 androidxActivity = "1.13.0"
