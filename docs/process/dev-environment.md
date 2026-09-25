@@ -12,7 +12,7 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 | Что | Зачем | Где взять |
 |---|---|---|
 | Git для Windows | работа с репозиторием | [git-scm.com](https://git-scm.com/download/win) |
-| JDK 25 (Eclipse Temurin) | Gradle из командной строки и desktop-приложение | [adoptium.net](https://adoptium.net/temurin/releases/?version=25) |
+| JDK 25 (Eclipse Temurin) | Gradle из командной строки и desktop-приложение | [инструкция](jdk.md) |
 | Android Studio, последняя стабильная | IDE, Android SDK, эмулятор | [developer.android.com/studio](https://developer.android.com/studio) |
 | Плагин **Kotlin Multiplatform** | запуск desktop-приложения и общего кода из IDE | Android Studio → Settings → Plugins → Marketplace |
 | Эмулятор Android | каждодневный запуск и отладка, кабель не нужен | ставится вместе с Android Studio |
@@ -43,38 +43,16 @@ Gradle там запускается как `.\gradlew`: PowerShell не ище�
 
 ## 2. JDK 25
 
-1. Установить Temurin 25 (MSI). В установщике включить *Set JAVA_HOME* и *Add to PATH*.
-2. Проверить в новом терминале: `java -version` показывает 25.
+Пошагово для Windows и Mac, с проверкой и разбором «почему сборка идёт на Java 21» —
+в отдельной инструкции: **[JDK 25: как поставить](jdk.md)**.
 
-Android Studio приносит свою JDK, но отдельная JDK нужна, чтобы `gradlew` работал из терминала так же, как в CI.
+Коротко для Windows: установщик Temurin 25 (`.msi`) с включённым пунктом *Set JAVA_HOME variable*,
+затем в Android Studio *Gradle JDK* = 25.
 
 **Почему 25, а не новее.** JDK 25 — LTS: обновления безопасности выходят годами. Desktop-версия везёт JDK
 внутри установщика, поэтому версия с долгой поддержкой важна и для пользователей. 26 — промежуточный
 выпуск: обновления для него закончились, когда 15 сентября 2026 вышла 27. А 27 Gradle 9.7 пока
 не умеет запускать.
-
-**Если уже стоит Java 26** — удалять не нужно. Gradle 9.4 и новее на ней работает, а JDK 25 для сборки
-проект после шага 1.1 скачает сам: версия задана в toolchain Gradle. Какая JDK стоит на компьютере,
-на результат сборки не влияет. Байткод Android-модулей — уровня 17: это совместимость с Android,
-от JDK на компьютере она не зависит.
-
-### Откуда Gradle берёт Java 21, если стоит 25
-
-Это самая частая путаница. `java -version` показывает ту Java, что первой найдена в `PATH`, а Gradle
-смотрит в другие места:
-
-| Где | Как проверить | Что сделать |
-|---|---|---|
-| Android Studio: настройка *Gradle JDK* | Settings → Build, Execution, Deployment → Build Tools → Gradle | по умолчанию там JDK, встроенная в Android Studio, — обычно это 21. Выбрать JDK 25 |
-| переменная `JAVA_HOME` — её `.\gradlew` берёт первой | `echo $env:JAVA_HOME` | указать папку JDK 25: Пуск → «Изменение системных переменных среды» → Переменные среды → `JAVA_HOME` = `C:\Program Files\Eclipse Adoptium\jdk-25…` |
-| файл проекта `gradle\gradle-daemon-jvm.properties` | `Get-Content gradle\gradle-daemon-jvm.properties` | если там `toolchainVersion=21`, проект сам просит 21. В шаблоне это не мешает |
-| `org.gradle.java.home` в `gradle.properties` | в папке проекта и в `%USERPROFILE%\.gradle` | убрать строку или указать JDK 25 |
-
-Итог показывает `.\gradlew --version`: строки *Launcher JVM* и *Daemon JVM*, а в скобках — откуда взята Java.
-После правок открыть новый терминал и выполнить `.\gradlew --stop`, чтобы старый процесс Gradle не остался на 21.
-
-Для шаблона из [раздела 6](#6-проверка) версия Java не важна: он собирается и на 21. В Pixroost после шага 1.1
-версию задаёт сам проект, и настройки компьютера на неё не влияют.
 
 ## 3. Android Studio
 
@@ -82,7 +60,7 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
    Platform-Tools и эмулятор.
 2. Settings → Plugins → Marketplace → **Kotlin Multiplatform** → Install → перезапустить IDE.
 3. Settings → Build, Execution, Deployment → Build Tools → Gradle → *Gradle JDK* = JDK 25
-   (или *Download JDK…* → версия 25, если отдельная ещё не стоит).
+   ([подробнее](jdk.md#3-android-studio)).
 4. Settings → Languages & Frameworks → Android SDK: в *SDK Platforms* отмечена последняя стабильная версия
    Android, в *SDK Tools* — Android SDK Build-Tools и Platform-Tools.
 
@@ -174,7 +152,7 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 |---|---|---|
 | macOS, последняя стабильная | свежий Xcode требует свежую macOS | Системные настройки → Основные → Обновление ПО |
 | Xcode, последний стабильный | сборка iOS, симулятор, установка на iPhone | App Store |
-| JDK 25 (Eclipse Temurin) | Gradle | установщик `.pkg` с [adoptium.net](https://adoptium.net/temurin/releases/?version=25) |
+| JDK 25 (Eclipse Temurin) | Gradle | [инструкция для Mac](jdk.md#mac) |
 | Android Studio или IntelliJ IDEA + плагин **Kotlin Multiplatform** | запуск iOS- и desktop-версий из IDE | [developer.android.com/studio](https://developer.android.com/studio) |
 | Apple ID | подпись для своего iPhone | уже есть, бесплатно |
 
@@ -183,7 +161,7 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 1. Установить Xcode и один раз открыть: принять лицензию и поставить компоненты iOS, которые он предложит.
 2. Проверить в терминале: `xcode-select -p` показывает путь внутри `Xcode.app`.
    Если нет — `sudo xcode-select --switch /Applications/Xcode.app`.
-3. JDK 25 и IDE с плагином — как в разделах 2 и 3.
+3. JDK 25 — по [инструкции для Mac](jdk.md#mac), IDE с плагином — как в разделе 3.
 4. Склонировать репозиторий, например в `~/dev/pixroost`.
 5. Xcode → Settings → Accounts → **+** → Apple ID. Появится команда «Ваше имя (Personal Team)».
 
@@ -223,7 +201,7 @@ Android Studio приносит свою JDK, но отдельная JDK нуж
 | Xiaomi не даёт включить «Установка через USB» | нужна SIM-карта и Mi-аккаунт, см. раздел 4 |
 | `gradlew.bat is not recognized` | в PowerShell писать `.\gradlew` |
 | `project 'apps' not found` | команды `:apps:…` — для Pixroost после шага 1.1; в шаблоне — `:desktopApp:run`, `:androidApp:installDebug` |
-| Gradle берёт Java 21, хотя стоит 25 | [откуда он её берёт](#откуда-gradle-берёт-java-21-если-стоит-25) |
+| Gradle берёт Java 21, хотя стоит 25 | [откуда она берётся и что сделать](jdk.md#если-всё-равно-21) |
 | Gradle ругается на версию Java | *Gradle JDK* = 25 в настройках, `JAVA_HOME` указывает на JDK 25 (или 26). На Java 27 Gradle 9.7 не запускается |
 | `Filename too long` | `git config --global core.longpaths true`, короткий путь к проекту |
 | Сборка очень долгая | исключения в Defender (раздел 5) |
