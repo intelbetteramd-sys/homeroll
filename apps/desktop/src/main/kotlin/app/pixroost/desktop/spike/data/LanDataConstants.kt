@@ -8,9 +8,11 @@ object LanDataConstants {
     const val RECEIVE_TIMEOUT_MILLIS = 250
     const val DATAGRAM_BUFFER_SIZE = 512
 
-    // Windows firewall
+    // Windows firewall. Commands use no double quotes: Windows drops them when it passes a Java
+    // argument to PowerShell, so strings are single-quoted and formatted with -f.
     const val RULE_NAME = "Pixroost S-04"
     const val POWERSHELL_TIMEOUT_SECONDS = 60L
+    const val UTF8_OUTPUT = "[Console]::OutputEncoding = [Text.Encoding]::UTF8; "
     const val PROFILES_COMMAND =
-        "Get-NetConnectionProfile | ForEach-Object { \"\$(\$_.InterfaceAlias): \$(\$_.NetworkCategory)\" }"
+        "Get-NetConnectionProfile | ForEach-Object { '{0}: {1}' -f \$_.InterfaceAlias, \$_.NetworkCategory }"
 }

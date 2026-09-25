@@ -37,8 +37,8 @@ class WindowsFirewall(private val javaPath: String) {
 
     private fun rulesCommand() =
         "Get-NetFirewallApplicationFilter -Program '$javaPath' -ErrorAction SilentlyContinue | Get-NetFirewallRule | " +
-            "ForEach-Object { \"\$(\$_.DisplayName) | \$(\$_.Direction) | \$(\$_.Action) | \$(\$_.Profile) | " +
-            "enabled=\$(\$_.Enabled)\" }"
+            "ForEach-Object { '{0} | {1} | {2} | {3} | enabled={4}' -f " +
+            "\$_.DisplayName, \$_.Direction, \$_.Action, \$_.Profile, \$_.Enabled }"
 
     private fun elevated(command: String) {
         powershell(
@@ -48,10 +48,16 @@ class WindowsFirewall(private val javaPath: String) {
     }
 
     private fun powershell(command: String): List<String> {
-        val process = ProcessBuilder("powershell", "-NoProfile", "-NonInteractive", "-Command", command)
+        val process = ProcessBuilder(
+            "powershell",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            LanDataConstants.UTF8_OUTPUT + command,
+        )
             .redirectErrorStream(true)
             .start()
-        val lines = process.inputStream.bufferedReader().readLines().filter { it.isNotBlank() }
+        val lines = process.inputStream.bufferedReader(Charsets.UTF_8).readLines().filter { it.isNotBlank() }
         process.waitFor(LanDataConstants.POWERSHELL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         return lines
     }

@@ -3,6 +3,7 @@ package app.pixroost.desktop.spike.ui
 import app.pixroost.core.spike.lan.LanSpikeConstants
 import app.pixroost.desktop.spike.data.FoundPhone
 import app.pixroost.desktop.spike.data.LanDataConstants
+import app.pixroost.desktop.spike.data.LocalAddress
 import app.pixroost.desktop.spike.data.PcAnnouncer
 import app.pixroost.desktop.spike.data.PcServer
 import app.pixroost.desktop.spike.data.PhoneBroadcastFinder
@@ -34,7 +35,6 @@ class LanSpikeController(private val scope: CoroutineScope) {
     private var announcer: PcAnnouncer? = null
     private var mdnsFinder: PhoneMdnsFinder? = null
     private var broadcastJob: Job? = null
-    private var broadcastTargets: List<InetAddress> = emptyList()
 
     private val _state = MutableStateFlow(LanSpikeUiState(pcName = pcName))
     val state: StateFlow<LanSpikeUiState> = _state.asStateFlow()
@@ -48,18 +48,25 @@ class LanSpikeController(private val scope: CoroutineScope) {
         eventLog.add("Адреса ПК: ${addresses.joinToString { it.address.hostAddress }}")
         scope.launch { runServer() }
         scope.launch(Dispatchers.IO) { announce(addresses.firstOrNull()?.address) }
-        broadcastTargets = listOf(InetAddress.getByName(LanDataConstants.BROADCAST_ALL)) +
-            addresses.mapNotNull { it.broadcast }
-        startBroadcastFinder()
+        startBroadcastFinder(addresses)
         refreshFirewall()
     }
 
-    /** Looks for the phone again with a fresh timer, e.g. after changing the firewall rules. */
+    /**
+     * Looks for the phone again with a fresh timer, e.g. after changing the firewall rules.
+     * Reads the adapters again: a VPN or another Wi-Fi network changes the broadcast addresses.
+     */
     fun rediscover() {
-        eventLog.add("Ищу телефон заново")
-        _state.update { it.copy(phones = emptyList()) }
+        val addresses = localIpv4Addresses()
+        eventLog.add("Ищу телефон заново, адреса ПК: ${addresses.joinToString { it.address.hostAddress }}")
+        _state.update { state ->
+            state.copy(
+                addresses = addresses.map { "${it.interfaceName}: ${it.address.hostAddress}" },
+                phones = emptyList(),
+            )
+        }
         broadcastJob?.cancel()
-        startBroadcastFinder()
+        startBroadcastFinder(addresses)
         mdnsFinder?.let { finder ->
             finder.stop()
             finder.start(System.currentTimeMillis(), ::onPhoneFound)
@@ -144,8 +151,11 @@ class LanSpikeController(private val scope: CoroutineScope) {
         }
     }
 
-    private fun startBroadcastFinder() {
+    private fun startBroadcastFinder(addresses: List<LocalAddress>) {
         val startedAt = System.currentTimeMillis()
-        broadcastJob = scope.launch { PhoneBroadcastFinder(pcName).run(broadcastTargets, startedAt, ::onPhoneFound) }
+        val targets = listOf(InetAddress.getByName(LanDataConstants.BROADCAST_ALL)) +
+            addresses.mapNotNull { it.broadcast }
+        val finder = PhoneBroadcastFinder(pcName, onError = eventLog::add)
+        broadcastJob = scope.launch { finder.run(targets, startedAt, ::onPhoneFound) }
     }
 }

@@ -48,7 +48,7 @@ class LanSpikeViewModel(application: Application) : AndroidViewModel(application
 
     init {
         viewModelScope.launch { runServer() }
-        viewModelScope.launch { responder.run(::onDiscoverRequest) }
+        viewModelScope.launch { responder.run(::onDiscoverRequest, ::log) }
         announcer.start(phoneName, ::log)
         pcDiscovery.start(::onPcFound, ::log)
     }
