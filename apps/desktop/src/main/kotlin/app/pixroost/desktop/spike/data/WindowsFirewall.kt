@@ -20,10 +20,13 @@ class WindowsFirewall(private val javaPath: String) {
         )
     }
 
-    /** The rule an installer would add: inbound, this program only, private networks only. */
+    /**
+     * The rule an installer would add: inbound, this program only, private and public networks. Windows 11 often
+     * marks a new home network as public, and a private-only rule then blocks the phone (spike S-03).
+     */
     fun addRule() = elevated(
         "New-NetFirewallRule -DisplayName '${LanDataConstants.RULE_NAME}' -Direction Inbound " +
-            "-Program '$javaPath' -Action Allow -Profile Private",
+            "-Program '$javaPath' -Action Allow -Profile Private,Public",
     )
 
     /**
