@@ -50,8 +50,8 @@ gantt
 **Цель:** всё готово, чтобы начать писать код.
 
 - [x] Идея, видение, требования, архитектура, конвенции — эта документация.
-- [ ] Настроить репозиторий: имя `pixroost`, публичный, защита `main`, безопасность, лейблы, вехи ([пошагово](process/repository-setup.md)).
-- [ ] Android Studio на Windows + плагин Kotlin Multiplatform, JDK 25, эмулятор или телефон для отладки
+- [x] Настроить репозиторий: имя `pixroost`, публичный, защита `main`, безопасность, лейблы, вехи ([пошагово](process/repository-setup.md)).
+- [x] Android Studio на Windows + плагин Kotlin Multiplatform, JDK 25, эмулятор или телефон для отладки
       ([инструкция](process/dev-environment.md)).
 
 **Позже, когда появятся деньги:** домен, Apple Developer Program (см. таблицу выше).

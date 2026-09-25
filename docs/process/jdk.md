@@ -53,11 +53,22 @@ echo $env:JAVA_HOME      # C:\Program Files\Eclipse Adoptium\jdk-25...
 .\gradlew --version      # строки Launcher JVM и Daemon JVM — 25
 ```
 
+Если `java -version` и обе строки `.\gradlew --version` показывают 25, всё в порядке — даже когда
+`JAVA_HOME` пустая: тогда `.\gradlew` берёт Java из `PATH`. Но `JAVA_HOME` лучше всё же задать — её ищут
+и другие инструменты. Одной командой в PowerShell (путь берётся из той `java`, что уже находится):
+
+```powershell
+[Environment]::SetEnvironmentVariable("JAVA_HOME", (Split-Path (Split-Path (Get-Command java).Source)), "User")
+```
+
+Перед этим стоит проверить, что `(Get-Command java).Source` показывает путь внутри `Eclipse Adoptium\jdk-25…`.
+Новое значение увидят только новые окна терминала и перезапущенная Android Studio.
+
 ### Если всё равно 21
 
 | Что видно | Что сделать |
 |---|---|
-| `echo $env:JAVA_HOME` показывает старую JDK или пусто | Пуск → «Изменение системных переменных среды» → Переменные среды → `JAVA_HOME` = папка JDK 25 → OK. Открыть новый терминал |
+| `echo $env:JAVA_HOME` показывает старую JDK | Пуск → «Изменение системных переменных среды» → Переменные среды → `JAVA_HOME` = папка JDK 25 → OK. Открыть новый терминал |
 | `java -version` показывает 26 или 21 | не страшно: `.\gradlew` берёт Java из `JAVA_HOME`, а не из `PATH`. Если мешает — поднять папку `…\jdk-25…\bin` выше в `Path` |
 | в Android Studio сборка на 21 | шаг 3: *Gradle JDK* = 25 |
 | в папке проекта есть `gradle\gradle-daemon-jvm.properties` с `toolchainVersion=21` | проект сам просит 21. В шаблоне KMP это не мешает; в Pixroost после шага 1.1 там будет 25 |

@@ -60,7 +60,7 @@ flowchart LR
 |---|---|---|---|---:|
 | [0.1](https://github.com/intelbetteramd-sys/pixroost/issues/15) | Доделать настройки GitHub | по [настройке репозитория](process/repository-setup.md): только squash-слияние, автоудаление веток после слияния, удалить старые влитые ветки, темы (topics) в About | в Settings включено, на странице Branches только `main` | 1 |
 | [0.2](https://github.com/intelbetteramd-sys/pixroost/issues/16) | Среда разработки на Windows | по [инструкции](process/dev-environment.md): Git, JDK 25, Android Studio с плагином Kotlin Multiplatform, Android SDK, эмулятор | `java -version` показывает 25 (или 26, если она уже стоит), эмулятор запускается | 3 |
-| [0.3](https://github.com/intelbetteramd-sys/pixroost/issues/17) | Проверить среду | сгенерировать шаблон на kmp.jetbrains.com (Android + Desktop), запустить на эмуляторе и на Windows (`.\gradlew :desktopApp:run`), APK поставить на телефон через Telegram. В репозиторий не коммитим | приложение работает в эмуляторе, на телефоне и на Windows | 2 |
+| [0.3](https://github.com/intelbetteramd-sys/pixroost/issues/17) | Проверить среду | сгенерировать шаблон на kmp.jetbrains.com (Android, iOS, Desktop), запустить на эмуляторе и на Windows (`.\gradlew :desktopApp:run`), APK поставить на телефон через Telegram. В репозиторий не коммитим | приложение работает в эмуляторе, на телефоне и на Windows | 2 |
 
 ## Фаза 1 · Каркас и спайки
 
@@ -103,7 +103,7 @@ iPhone, iPad и macOS в светлой и тёмной теме.
 | 3.2 | Базовые компоненты | `PxButton`, `PxIconButton`, `PxBadge`, `PxLamp`, `PxSourceMark`, `PxFilterChips`, `PxSwitch`, `PxArchiveStatus` со скриншот-тестами | `DS-Components` | 14 |
 | 3.3 | Основа | `shared/core`: `Result` и ошибки, логи Kermit, диспетчеры корутин, часы | — | 4 |
 | 3.4 | Навигация и DI | Koin, Navigation 3; разделы: 4 на телефоне, 5 на ПК | `Main`, `W-Library` | 8 |
-| 3.5 | База данных | схема SQLDelight по [модели данных](architecture/data-model.md), миграции, тесты запросов | — | 12 |
+| 3.5 | База данных | Room 3 по [модели данных](architecture/data-model.md) и [ADR 0010](architecture/adr/0010-room3.md): сущности, DAO, экспорт схемы, тесты запросов и миграций | — | 12 |
 | 3.6 | Интерфейс источников | `MediaSource`, общие модели, фейковый источник для тестов | — | 6 |
 | 3.7 | Галерея Android | индексатор MediaStore: инкрементально, частичный доступ Android 14+ | `A-Start` | 16 |
 | 3.8 | Папки на ПК | обход папок, слежение за изменениями, SHA-256 | `W-Storages` | 10 |

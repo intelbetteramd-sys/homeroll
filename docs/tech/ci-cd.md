@@ -23,7 +23,7 @@ GitHub Actions. Для **публичных** репозиториев мину�
 | `android` | ubuntu | сборка debug APK, unit-тесты Android; APK — артефакт сборки, его можно скачать прямо на телефоне |
 | `desktop` | ubuntu | сборка desktop, `desktopTest` |
 | `ios` | macos | сборка фреймворка и приложения для симулятора, `iosTest` |
-| `db` | ubuntu | проверка миграций SQLDelight |
+| `db` | ubuntu | тесты миграций Room на JVM, сверка экспортированной схемы |
 
 Сборки идут параллельно, кэшируются Gradle и Kotlin/Native (`~/.konan`).
 

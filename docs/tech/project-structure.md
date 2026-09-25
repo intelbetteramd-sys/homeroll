@@ -14,7 +14,7 @@ pixroost/
 │
 ├── shared/
 │   ├── core/                    # базовые модели, Result, время, логирование
-│   ├── database/                # схема и запросы SQLDelight, миграции
+│   ├── database/                # Room 3: сущности, DAO, схемы в schemas/, миграции
 │   ├── platform/                # интерфейсы платформы + actual-реализации
 │   │                            #   галерея, файлы, секреты, mDNS, фон, OAuth-браузер
 │   ├── designsystem/            # тема, токены, компоненты (Px*)
