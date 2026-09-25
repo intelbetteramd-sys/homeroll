@@ -12,10 +12,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import app.pixroost.android.spike.JankMeter
-import app.pixroost.android.spike.SpikeConstants
-import app.pixroost.android.spike.SpikeScreen
-import app.pixroost.android.spike.spikeImageLoader
+import app.pixroost.android.spike.image.spikeImageLoader
+import app.pixroost.android.spike.metrics.JankMeter
+import app.pixroost.android.spike.metrics.MetricsConstants
+import app.pixroost.android.spike.ui.SpikeScreen
 
 /** Spike S-02: a MediaStore grid with frame statistics instead of the placeholder screen. */
 class MainActivity : ComponentActivity() {
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         meter = JankMeter(window)
         val imageLoader = spikeImageLoader(this)
         val refreshRate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            display?.refreshRate ?: SpikeConstants.DEFAULT_REFRESH_RATE
+            display?.refreshRate ?: MetricsConstants.DEFAULT_REFRESH_RATE
         } else {
             @Suppress("DEPRECATION")
             windowManager.defaultDisplay.refreshRate
