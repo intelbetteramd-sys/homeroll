@@ -55,7 +55,7 @@
 
 | Что | Выбор |
 |---|---|
-| UI | Compose for Desktop (JVM 21, встроенная JRE) |
+| UI | Compose for Desktop (JVM 25, встроенная JRE) |
 | Упаковка | Compose Gradle plugin (jpackage): `.dmg` (macOS), `.msi` (Windows), `.deb` (Linux) |
 | Подпись macOS | Developer ID + нотаризация (`notarytool`) |
 | Microsoft Store | MSIX, подпись выполняет Microsoft |
@@ -86,10 +86,17 @@ Kotlin + Ktor Server, Docker, без базы данных. См. [backend.md](.
 | Что | Зачем | Когда |
 |---|---|---|
 | **ПК на Windows + Android Studio** (плагин Kotlin Multiplatform) | общий код, Android, desktop-версия для Windows и Linux | сейчас |
-| JDK 21 | Gradle, desktop | сейчас |
+| JDK 25 (LTS), через toolchain Gradle | Gradle, desktop; байткод Android — уровня 17 | сейчас |
 | Android-телефон (или эмулятор) | отладка, реальная производительность, камера для QR | сейчас |
-| Mac на Apple Silicon, 16+ ГБ ОЗУ | сборка iOS (Kotlin/Native) и macOS, Xcode, симулятор | этап «iOS и macOS» |
-| iPhone | PhotoKit с iCloud, камера, производительность | этап «iOS и macOS» |
+| Mac на Apple Silicon, 16+ ГБ ОЗУ | сборка iOS (Kotlin/Native) и macOS, Xcode, симулятор | есть, [трек Apple](../development-plan.md#трек-apple--параллельно-и-бесплатно) |
+| iPhone | PhotoKit с iCloud, камера, производительность; установка с бесплатным Apple ID | есть |
+| Apple Developer Program | TestFlight, App Store, нотаризация `.dmg` | этап «iOS и macOS», $99 в год |
 
 На Windows Android Studio собирает и запускает Android- и desktop-версии; iOS-модули в проекте есть,
 но собираются только на macOS (локально или на macOS-раннере GitHub Actions).
+
+## iOS и macOS: нативная навигация
+
+На iPhone и iPad слой навигации — SwiftUI (`TabView`, `NavigationStack`, `.toolbar`, `.sheet`): так
+панели получают настоящий Liquid Glass. Экраны внутри — Compose через `ComposeUIViewController`.
+На macOS — Compose Desktop с «родным» окном. Подробности и спайки — [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md).

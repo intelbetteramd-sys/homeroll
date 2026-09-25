@@ -78,7 +78,8 @@ flowchart LR
 ## Planned for v1.0
 
 v1.0 targets **Android and Windows** (plus Linux) — everything we can build and publish for free.
-**iOS and macOS come later**, once there is budget for a Mac and an Apple developer account.
+**iOS and macOS** are developed in parallel and will be published later, once there is budget for an Apple
+developer account.
 
 | | Android | Windows / Linux |
 |---|:---:|:---:|

@@ -47,5 +47,5 @@
 |---|---|
 | [Конвенции](process/conventions.md) | ветки, коммиты, PR, версии, стиль кода |
 | [Настройка репозитория](process/repository-setup.md) | что включить в настройках GitHub: защита `main`, безопасность, лейблы, вехи |
-| [Среда разработки](process/dev-environment.md) | что поставить на Windows, чтобы собирать Android и desktop |
+| [Среда разработки](process/dev-environment.md) | что поставить на Windows и Mac, чтобы собирать Android, desktop и iOS |
 | [Распространение](release/distribution.md) | сторы, стоимость, требования, чек-лист релиза |

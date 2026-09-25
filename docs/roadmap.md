@@ -4,8 +4,9 @@
 До него версии `0.x` идут только в бету: закрытое тестирование, GitHub pre-release.
 
 > **Сначала — всё бесплатное.** v1.0 выходит на **Android и Windows** (плюс Linux): для них не нужны
-> ни Mac, ни платные аккаунты. **iOS и macOS** — отдельным этапом, когда появятся деньги на Mac
-> и Apple Developer Program ($99 в год). Решение — [ADR 0008](architecture/adr/0008-android-windows-first.md).
+> платные аккаунты. **iOS и macOS** разрабатываем параллельно на своём Mac и iPhone — это тоже бесплатно,
+> а публикуем, когда появятся $99 в год на Apple Developer Program.
+> Решение — [ADR 0008](architecture/adr/0008-android-windows-first.md).
 >
 > Пошагово, с часами и критериями готовности — в [плане разработки](development-plan.md).
 >
@@ -37,12 +38,12 @@ gantt
 |---|---|---|---|
 | ПК на Windows + Android Studio | Android, Windows, Linux, весь общий код | бесплатно | сейчас |
 | Android-телефон | тесты на реальном устройстве | уже есть | сейчас |
+| Mac и iPhone | сборка и запуск iOS и macOS, установка на свой iPhone с бесплатным Apple ID | уже есть | сейчас, [трек Apple](development-plan.md#трек-apple--параллельно-и-бесплатно) |
 | GitHub, GitHub Actions, GitHub Pages | код, CI, сайт и политика конфиденциальности | бесплатно (публичный репозиторий) | сейчас |
 | RuStore, Microsoft Store, GitHub Releases | публикация v1.0 | бесплатно | Фаза 7 |
 | Google Play | ещё один стор для Android | $25 один раз | по желанию |
 | Домен `pixroost.app` | красивый адрес сайта | ~2 500 ₽ в год | когда появятся деньги |
-| Mac на Apple Silicon | сборка iOS и macOS | дорого | этап «iOS и macOS» |
-| Apple Developer Program | App Store, подпись macOS | $99 в год | этап «iOS и macOS» |
+| Apple Developer Program | TestFlight, App Store, подпись и нотаризация macOS | $99 в год | этап «iOS и macOS» |
 
 ## Фаза 0 · Фундамент (~2 недели)
 
@@ -50,10 +51,10 @@ gantt
 
 - [x] Идея, видение, требования, архитектура, конвенции — эта документация.
 - [ ] Настроить репозиторий: имя `pixroost`, публичный, защита `main`, безопасность, лейблы, вехи ([пошагово](process/repository-setup.md)).
-- [ ] Android Studio на Windows + плагин Kotlin Multiplatform, JDK 21, эмулятор или телефон для отладки
+- [ ] Android Studio на Windows + плагин Kotlin Multiplatform, JDK 25, эмулятор или телефон для отладки
       ([инструкция](process/dev-environment.md)).
 
-**Позже, когда появятся деньги:** домен, Mac, Apple Developer Program (см. таблицу выше).
+**Позже, когда появятся деньги:** домен, Apple Developer Program (см. таблицу выше).
 
 **Готово, когда:** Android Studio на Windows собирает и запускает пустой KMP-шаблон для Android и desktop (Windows).
 
@@ -75,8 +76,8 @@ gantt
 | S-06 | pHash на наборе из 1 000 реальных фото | «тот же кадр, другое качество» находится с точностью ≥ 95% |
 | S-07 | Упаковка desktop: `.msi` (и MSIX для Microsoft Store), трей, автозапуск | устанавливается и запускается на чистой Windows |
 
-Спайки для Apple — на этапе [«iOS и macOS»](#этап-ios-и-macos): S-01 (PhotoKit и сетка на iPhone),
-фоновая передача на iOS, `.dmg` с нотаризацией.
+Спайки для Apple — S-01 (PhotoKit и сетка на iPhone), S-08 (Liquid Glass) и S-09 (окно macOS) — идут
+параллельно, в [треке Apple](development-plan.md#трек-apple--параллельно-и-бесплатно).
 
 **Готово, когда:** по каждому спайку есть решение; [ADR 0005](architecture/adr/0005-lan-transport.md) подтверждён или заменён.
 
@@ -87,7 +88,8 @@ gantt
 - [x] Исследование: персоны, рынок, принципы — [research.md](design/research.md).
 - [x] Информационная архитектура и сценарии — [information-architecture.md](design/information-architecture.md).
 - [x] Визуальное направление, токены светлой и тёмной темы — [README](design/README.md).
-- [x] Макеты Android и Windows (светлая и тёмная темы), первые макеты iPhone и macOS — [холст](design/README.md#макеты).
+- [x] Макеты Android, Windows, iPhone, iPad и macOS в светлой и тёмной теме — [холст](design/README.md#макеты).
+- [x] Liquid Glass на iPhone и Mac: нативная навигация, экраны на Compose — [ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md) (предложено).
 - [x] Проверки: критика, эвристики, доступность — [review-findings.md](design/review-findings.md).
 - [ ] Ревью макетов владельцем.
 - [ ] Логотип и иконка приложения.
@@ -152,13 +154,16 @@ gantt
 
 ## Этап «iOS и macOS»
 
-Начинаем, **когда появятся деньги** на Mac и Apple Developer Program. Может выйти в любой версии `1.x`.
-Общий код, интерфейс и протокол к этому моменту уже готовы — остаётся платформенная часть.
+Разработка идёт **уже сейчас** на своём Mac и iPhone, бесплатно — [трек Apple](development-plan.md#трек-apple--параллельно-и-бесплатно).
+Публикация — **когда появятся $99** на Apple Developer Program. Может выйти в любой версии `1.x`.
 
-- [ ] Mac, Xcode, Apple Developer Program.
-- [ ] Спайки: S-01 (PhotoKit из Kotlin/Native, сетка на iPhone, оригиналы из iCloud), фоновая передача на iOS
-      (background `URLSession` с пиннингом), mDNS и разрешение локальной сети на iOS.
+- [x] Mac и iPhone.
+- [ ] Xcode, запуск на своём iPhone с бесплатным Apple ID.
+- [ ] Спайки: S-01 (PhotoKit из Kotlin/Native, сетка на iPhone, оригиналы из iCloud), S-08 (Liquid Glass поверх
+      Compose, [ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md)), S-09 (окно macOS).
+- [ ] Фоновая передача на iOS (background `URLSession` с пиннингом), mDNS и разрешение локальной сети на iOS.
 - [ ] Галерея iPhone с iCloud Фото, Live Photo, автоархив в рамках ограничений iOS.
+- [ ] Apple Developer Program ($99 в год).
 - [ ] macOS: `.dmg`, подпись Developer ID, нотаризация.
 - [ ] TestFlight → App Store.
 
@@ -171,13 +176,14 @@ gantt
 | **v1.3** | Библиотека «Фото» на Mac, iCloud Drive, большие видео и скриншоты, сжатие видео |
 | **v2.0** | Веб-приложение (Compose Web), семейный доступ, поиск по содержимому на устройстве |
 
-Этап «iOS и macOS» идёт параллельно этим версиям — как только появятся средства.
+Этап «iOS и macOS» идёт параллельно этим версиям: разработка — сразу, публикация — когда появятся $99.
 
 ## Риски
 
 | Риск | Вероятность | Что делаем |
 |---|---|---|
-| Нет денег на Mac и аккаунт Apple ещё долго | средняя | v1.0 без Apple; общий код не зависит от iOS, этап «iOS и macOS» — отдельно |
+| Нет $99 на аккаунт Apple ещё долго | средняя | v1.0 без Apple; iOS и macOS тем временем разрабатываем и проверяем на своих устройствах бесплатно |
+| Compose на iOS не даёт настоящего Liquid Glass | высокая | навигация на SwiftUI, экраны на Compose ([ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md)), спайк S-08 |
 | Задержки регистрации Apple из РФ | высокая | регистрироваться заранее, как только будут деньги и загранпаспорт |
 | Фоновые ограничения iOS для автоархива | высокая | спайк на этапе «iOS и macOS», честный UX «откройте приложение дома» |
 | Google ужесточит доступ ещё сильнее | средняя | Takeout-импорт и папки на ПК как запасной путь |

@@ -37,6 +37,7 @@
 | [6 · Дубли и уборка](#фаза-6--дубли-и-уборка--v04) | `v0.4`: уборка освобождает место | 78 | 4 |
 | [7 · Бета и релиз](#фаза-7--бета-и-релиз--v100) | `v1.0.0` в RuStore и Microsoft Store | 104 | 5 |
 | **Итого** | | **712** | **~35** |
+| [Трек Apple](#трек-apple--параллельно-и-бесплатно) | Pixroost на своём iPhone и Mac, решение по Liquid Glass | 46 | параллельно, в итог не входит |
 
 ```mermaid
 flowchart LR
@@ -48,6 +49,7 @@ flowchart LR
   P4 --> P5["5 · Облака, v0.3"]
   P5 --> P6["6 · Дубли и уборка, v0.4"]
   P6 --> P7["7 · Бета и релиз, v1.0"]
+  P0 -.-> A["Трек Apple, параллельно"]
 ```
 
 ## Фаза 0 · Фундамент
@@ -57,7 +59,7 @@ flowchart LR
 | № | Шаг | Что делаем | Готово, когда | Ч |
 |---|---|---|---|---:|
 | [0.1](https://github.com/intelbetteramd-sys/pixroost/issues/15) | Доделать настройки GitHub | по [настройке репозитория](process/repository-setup.md): только squash-слияние, автоудаление веток после слияния, удалить старые влитые ветки, темы (topics) в About | в Settings включено, на странице Branches только `main` | 1 |
-| [0.2](https://github.com/intelbetteramd-sys/pixroost/issues/16) | Среда разработки на Windows | по [инструкции](process/dev-environment.md): Git, JDK 21, Android Studio с плагином Kotlin Multiplatform, Android SDK, эмулятор | `java -version` показывает 21, эмулятор запускается | 3 |
+| [0.2](https://github.com/intelbetteramd-sys/pixroost/issues/16) | Среда разработки на Windows | по [инструкции](process/dev-environment.md): Git, JDK 25, Android Studio с плагином Kotlin Multiplatform, Android SDK, эмулятор | `java -version` показывает 25 (или 26, если она уже стоит), эмулятор запускается | 3 |
 | [0.3](https://github.com/intelbetteramd-sys/pixroost/issues/17) | Проверить среду | сгенерировать шаблон на kmp.jetbrains.com (Android + Desktop), запустить на эмуляторе и на Windows, APK поставить на телефон через Telegram. В репозиторий не коммитим | приложение работает в эмуляторе, на телефоне и на Windows | 2 |
 
 ## Фаза 1 · Каркас и спайки
@@ -67,7 +69,7 @@ flowchart LR
 
 | № | Шаг | Что делаем | Готово, когда | Ч |
 |---|---|---|---|---:|
-| [1.1](https://github.com/intelbetteramd-sys/pixroost/issues/18) | Каркас Gradle | `settings.gradle.kts`, `gradle/libs.versions.toml`, `build-logic` с convention-плагинами (KMP-библиотека, Compose, Android-приложение, desktop-приложение); модули `shared/core`, `shared/designsystem`, `apps/android`, `apps/desktop` по [структуре](tech/project-structure.md). iOS-таргеты объявлены, но на Windows не собираются | `gradlew :apps:android:installDebug` на эмуляторе и `gradlew :apps:desktop:run` показывают экран «Pixroost» | 12 |
+| [1.1](https://github.com/intelbetteramd-sys/pixroost/issues/18) | Каркас Gradle | `settings.gradle.kts`, `gradle/libs.versions.toml`, `build-logic` с convention-плагинами (KMP-библиотека, Compose, Android-приложение, desktop-приложение); модули `shared/core`, `shared/designsystem`, `apps/android`, `apps/desktop` по [структуре](tech/project-structure.md). JDK 25 через toolchain Gradle — скачивается сам. iOS-таргеты объявлены: на Windows не собираются, на Mac и в CI — да ([трек Apple](#трек-apple--параллельно-и-бесплатно)) | `gradlew :apps:android:installDebug` на эмуляторе и `gradlew :apps:desktop:run` показывают экран «Pixroost» | 12 |
 | [1.2](https://github.com/intelbetteramd-sys/pixroost/issues/19) | Качество кода | Spotless + ktlint, detekt, Kover; правила в `.editorconfig` | `gradlew check` зелёный локально | 5 |
 | [1.3](https://github.com/intelbetteramd-sys/pixroost/issues/20) | CI | `ci.yml` по [CI/CD](tech/ci-cd.md): `check`, сборка Android, сборка desktop на Linux и Windows, кэш Gradle; debug-APK как артефакт, чтобы ставить на телефон без ПК; проверку CI сделать обязательной в ruleset | PR с ошибкой стиля или теста не сливается, APK скачивается на телефоне | 6 |
 | [1.4](https://github.com/intelbetteramd-sys/pixroost/issues/21) | Dependabot для Gradle | добавить `gradle` в `.github/dependabot.yml` (GitHub Actions уже там) | приходят PR с обновлениями библиотек | 1 |
@@ -81,7 +83,8 @@ flowchart LR
 
 ## Фаза 2 · Дизайн (остаток)
 
-Эпик [#3](https://github.com/intelbetteramd-sys/pixroost/issues/3). Идёт параллельно с Фазой 1. Исследование, архитектура экранов и 70 макетов уже готовы.
+Эпик [#3](https://github.com/intelbetteramd-sys/pixroost/issues/3). Идёт параллельно с Фазой 1. Исследование, архитектура экранов и 125 макетов уже готовы: Android, Windows,
+iPhone, iPad и macOS в светлой и тёмной теме.
 
 | № | Шаг | Что делаем | Готово, когда | Ч |
 |---|---|---|---|---:|
@@ -178,8 +181,33 @@ flowchart LR
 | 7.8 | Бета | 2 недели со знакомыми тестировщиками, исправления | 30 |
 | 7.9 | Релиз | чек-лист, тег `v1.0.0`, публикация | 4 |
 
+## Трек Apple · параллельно и бесплатно
+
+Эпик [#37](https://github.com/intelbetteramd-sys/pixroost/issues/37). Mac и iPhone есть, поэтому версии для iPhone и Mac можно разрабатывать уже сейчас,
+без Apple Developer Program: на свой iPhone приложение ставится с бесплатным Apple ID, desktop-версия
+на Mac запускается без подписи. $99 в год нужны только для публикации — это
+[этап «iOS и macOS»](roadmap.md#этап-ios-и-macos) роадмапа.
+
+Приоритет прежний: v1.0 на Android и Windows ([ADR 0008](architecture/adr/0008-android-windows-first.md)).
+Шаги трека делаем, когда основной шаг ждёт ревью или хочется сменить задачу. В итог часов v1.0 они не входят.
+Как устроено стекло на iPhone и Mac — [ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md).
+
+| № | Шаг | Что делаем | Готово, когда | Ч |
+|---|---|---|---|---:|
+| [A.1](https://github.com/intelbetteramd-sys/pixroost/issues/38) | Среда на Mac | по [инструкции](process/dev-environment.md#7-mac-iphone-и-macos): Xcode, JDK 25, плагин Kotlin Multiplatform; шаблон с iOS на симуляторе и на своём iPhone | шаблон работает на iPhone и на Mac | 3 |
+| [A.2](https://github.com/intelbetteramd-sys/pixroost/issues/39) | iOS-оболочка | после 1.1: `apps/ios` — `TabView` и `NavigationStack` на SwiftUI, экраны из общего кода на Compose | экран «Pixroost» на iPhone внутри стеклянной панели вкладок | 6 |
+| [A.3](https://github.com/intelbetteramd-sys/pixroost/issues/40) | iOS в CI | после 1.3: job `ios` на macOS-раннере по [CI/CD](tech/ci-cd.md) | PR, который ломает iOS-сборку, не сливается | 3 |
+| [A.4](https://github.com/intelbetteramd-sys/pixroost/issues/41) | Спайк S-08: Liquid Glass | лента Compose под стеклянной панелью вкладок и кнопками; жесты, VoiceOver, клавиатура | критерии [ADR 0009](architecture/adr/0009-liquid-glass-native-navigation.md#спайки) выполнены или найден обход | 12 |
+| [A.5](https://github.com/intelbetteramd-sys/pixroost/issues/42) | Спайк S-01: галерея iPhone | PhotoKit из Kotlin/Native, сетка 10 000 превью, ограниченный доступ, оригиналы из iCloud | прокрутка без рывков на своём iPhone | 12 |
+| [A.6](https://github.com/intelbetteramd-sys/pixroost/issues/43) | Спайк S-09: окно macOS | Compose Desktop на Mac: прозрачный заголовок, меню, строка меню, стекло под сайдбаром | окно похоже на макет `M-Library` | 8 |
+| [A.7](https://github.com/intelbetteramd-sys/pixroost/issues/44) | Итоги | ADR 0009 — «Принято» или новое решение; обновить [стек](tech/stack.md) | решения записаны | 2 |
+
+Фоновая передача на iOS, TestFlight, App Store и нотаризация `.dmg` — на этапе «iOS и macOS»,
+когда будет Apple Developer Program.
+
 ## С чего начать
 
 1. Шаг 0.1 — пять минут в настройках GitHub.
 2. Шаг 0.2 — поставить всё по [инструкции](process/dev-environment.md).
 3. Шаг 1.1 — каркас проекта. После него в Android Studio открывается настоящий Pixroost.
+4. На Mac — шаг A.1 в любой момент: он ни от чего не зависит.
