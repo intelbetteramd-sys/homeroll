@@ -14,6 +14,8 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.multiplatform")
         pluginManager.apply("com.android.kotlin.multiplatform.library")
+        // Coverage of the desktop (JVM) tests; the root project merges it into one report.
+        pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         extensions.configure<KotlinMultiplatformExtension> {
             jvmToolchain(JDK_VERSION)

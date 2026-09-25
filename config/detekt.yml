@@ -1,0 +1,6 @@
+# Only the differences from the detekt defaults (buildUponDefaultConfig = true).
+
+naming:
+  FunctionNaming:
+    # Composable functions are named like types: LampMark, PixroostPlaceholder.
+    ignoreAnnotated: ['Composable']

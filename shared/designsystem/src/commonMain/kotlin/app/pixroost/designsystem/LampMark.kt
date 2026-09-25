@@ -16,16 +16,29 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 @Composable
 fun LampMark(outline: Color, modifier: Modifier = Modifier) {
     Canvas(modifier) {
-        val unit = size.minDimension / 16f
-        val stroke = 1.5f * unit
-        val topLeft = Offset(unit, unit)
-        val square = Size(14f * unit, 14f * unit)
-        val corner = CornerRadius(4f * unit)
+        val unit = size.minDimension / GRID
+        val stroke = STROKE * unit
+        val topLeft = Offset(INSET * unit, INSET * unit)
+        val square = Size((GRID - 2 * INSET) * unit, (GRID - 2 * INSET) * unit)
+        val corner = CornerRadius(CORNER * unit)
         drawRoundRect(color = LampColor, topLeft = topLeft, size = square, cornerRadius = corner)
         drawRoundRect(color = outline, topLeft = topLeft, size = square, cornerRadius = corner, style = Stroke(stroke))
-        drawLine(outline, Offset(8f * unit, 1.8f * unit), Offset(8f * unit, 14.2f * unit), stroke)
-        drawLine(outline, Offset(1.8f * unit, 8f * unit), Offset(14.2f * unit, 8f * unit), stroke)
+
+        val center = GRID / 2 * unit
+        val crossStart = CROSS_INSET * unit
+        val crossEnd = (GRID - CROSS_INSET) * unit
+        drawLine(outline, Offset(center, crossStart), Offset(center, crossEnd), stroke)
+        drawLine(outline, Offset(crossStart, center), Offset(crossEnd, center), stroke)
     }
 }
 
 internal val LampColor = Color(0xFFF2A93B)
+
+// Sizes in units of the 16-unit grid.
+private const val GRID = 16f
+private const val INSET = 1f
+private const val CORNER = 4f
+private const val STROKE = 1.5f
+
+// The window cross ends just inside the outline, so its ends hide under the stroke.
+private const val CROSS_INSET = 1.8f
