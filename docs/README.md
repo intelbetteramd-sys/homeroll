@@ -48,4 +48,5 @@
 | [Конвенции](process/conventions.md) | ветки, коммиты, PR, версии, стиль кода |
 | [Настройка репозитория](process/repository-setup.md) | что включить в настройках GitHub: защита `main`, безопасность, лейблы, вехи |
 | [Среда разработки](process/dev-environment.md) | что поставить на Windows и Mac, чтобы собирать Android, desktop и iOS |
+| [JDK 25](process/jdk.md) | как поставить JDK на Windows и Mac и почему сборка может идти на Java 21 |
 | [Распространение](release/distribution.md) | сторы, стоимость, требования, чек-лист релиза |

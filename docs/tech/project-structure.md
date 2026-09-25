@@ -9,7 +9,8 @@ pixroost/
 ├── apps/
 │   ├── android/                 # точка входа Android (Activity, манифест, иконки)
 │   ├── ios/                     # Xcode-проект: SwiftUI-оболочка, Info.plist, entitlements
-│   └── desktop/                 # точка входа desktop: окно, трей, упаковка dmg/msi/deb
+│   ├── desktop/                 # точка входа desktop: окно, трей, упаковка dmg/msi/deb
+│   └── macos-native/            # Swift Package: SwiftUI и стекло для Mac, вызывается из desktop через FFM
 │
 ├── shared/
 │   ├── core/                    # базовые модели, Result, время, логирование
@@ -100,6 +101,16 @@ shared/<module>/src/
 - Xcode-проект в `apps/ios` подключает общий фреймворк через прямую интеграцию KMP
   (задача Gradle `embedAndSignAppleFrameworkForXcode` в фазе сборки).
 - Swift Package-зависимости, если понадобятся, — через поддержку SwiftPM в Kotlin 2.4.
-- В Swift: `@main App`, хост для Compose (`ComposeUIViewController`), то, что проще сделать нативно
-  (например, камера для QR через VisionKit).
+- В Swift: `@main App`, навигация на SwiftUI (`TabView`, `NavigationStack`, `.toolbar`, `.sheet`), хост для
+  экранов Compose (`ComposeUIViewController`) и всё, что Compose не умеет или делает хуже системы
+  (например, камера для QR через VisionKit) — [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md).
 - `PrivacyInfo.xcprivacy` — обязателен ([privacy manifest для KMP](https://kotlinlang.org/docs/multiplatform/multiplatform-privacy-manifest.html)).
+
+## Нативные части macOS
+
+- `apps/macos-native` — Swift Package с динамической библиотекой: панель в строке меню и окно настроек
+  на SwiftUI, системное стекло (`NSGlassEffectView`) под сайдбаром и панелью инструментов окна Compose.
+- Функции библиотеки экспортируются как C-функции (`@_cdecl`), `apps/desktop` вызывает их через
+  Foreign Function & Memory API из JDK 25. Вызовы AppKit — только в главном потоке.
+- Собирается задачей Gradle (`swift build`) только на macOS и попадает в ресурсы приложения в `.dmg`.
+  На Windows и Linux этой части нет.

@@ -59,7 +59,7 @@
 | Упаковка | Compose Gradle plugin (jpackage): `.dmg` (macOS), `.msi` (Windows), `.deb` (Linux) |
 | Подпись macOS | Developer ID + нотаризация (`notarytool`) |
 | Microsoft Store | MSIX, подпись выполняет Microsoft |
-| Трей / строка меню | Compose `Tray` |
+| Трей / строка меню | Compose `Tray` на Windows и Linux; на macOS — `NSStatusItem` с панелью на SwiftUI |
 | Автозапуск | LaunchAgent (macOS), реестр / ярлык в автозагрузке (Windows) |
 | Горячая перезагрузка UI | Compose Hot Reload |
 
@@ -95,8 +95,13 @@ Kotlin + Ktor Server, Docker, без базы данных. См. [backend.md](.
 На Windows Android Studio собирает и запускает Android- и desktop-версии; iOS-модули в проекте есть,
 но собираются только на macOS (локально или на macOS-раннере GitHub Actions).
 
-## iOS и macOS: нативная навигация
+## iOS и macOS: что делаем на SwiftUI
 
-На iPhone и iPad слой навигации — SwiftUI (`TabView`, `NavigationStack`, `.toolbar`, `.sheet`): так
-панели получают настоящий Liquid Glass. Экраны внутри — Compose через `ComposeUIViewController`.
-На macOS — Compose Desktop с «родным» окном. Подробности и спайки — [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md).
+Правило: интерфейс на Compose, а то, что Compose на iOS и Mac не умеет или делает хуже системы, — на SwiftUI.
+
+- **iPhone и iPad:** навигация на SwiftUI (`TabView`, `NavigationStack`, `.toolbar`, `.sheet`) — так панели
+  получают настоящий Liquid Glass. Экраны внутри — Compose через `ComposeUIViewController`.
+- **macOS:** основное окно — Compose Desktop. Стекло окна, панель в строке меню и окно настроек — SwiftUI
+  из Swift-библиотеки `apps/macos-native`, которую desktop-приложение вызывает через Foreign Function & Memory API.
+
+Подробности и спайки — [ADR 0009](../architecture/adr/0009-liquid-glass-native-navigation.md).

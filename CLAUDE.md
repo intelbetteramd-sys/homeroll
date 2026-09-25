@@ -32,3 +32,31 @@ do not change the visual direction without the owner.
 - Anything that deletes user files must go through the cleanup safety policy
   (`docs/architecture/data-model.md`, "Правило безопасности удаления") and be covered by tests.
 - Never commit secrets (keystores, `.p8`, `.env`, `local.properties`).
+
+## Building in a cloud session
+
+- Project JDK is **25** (Gradle toolchain). UI rule: Compose everywhere; whatever Compose can't do well
+  on iOS or macOS is built in SwiftUI (`docs/architecture/adr/0009-liquid-glass-native-navigation.md`).
+- The environment's network access must allow `dl.google.com` (Google Maven and the Android SDK).
+  Maven Central, the Gradle Plugin Portal and `services.gradle.org` are needed as well.
+- Setup script for the environment (installs JDK 25 and the Android SDK; iOS builds need macOS and run in CI):
+
+  ```bash
+  #!/usr/bin/env bash
+  set -eu
+  apt-get update -qq
+  apt-get install -y -qq openjdk-25-jdk-headless unzip
+  SDK=/opt/android-sdk
+  if [ ! -x "$SDK/cmdline-tools/latest/bin/sdkmanager" ]; then
+    mkdir -p "$SDK/cmdline-tools"
+    curl -fsSL -o /tmp/cmdline-tools.zip \
+      https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+    unzip -q /tmp/cmdline-tools.zip -d "$SDK/cmdline-tools"
+    mv "$SDK/cmdline-tools/cmdline-tools" "$SDK/cmdline-tools/latest"
+  fi
+  yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" --licenses > /dev/null || true
+  "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" "platform-tools"
+  echo "export ANDROID_HOME=$SDK" > /etc/profile.d/android-sdk.sh
+  ```
+
+  With licenses accepted, the Android Gradle plugin downloads the platform and build tools it needs.
