@@ -21,7 +21,9 @@ spotless {
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**")
-        ktlint(libs.versions.ktlint.get()).editorConfigOverride(ktlintStyle)
+        ktlint(libs.versions.ktlint.get())
+            .editorConfigOverride(ktlintStyle)
+            .customRuleSets(listOf("io.nlopez.compose.rules:ktlint:${libs.versions.composeRules.get()}"))
     }
     kotlinGradle {
         target("**/*.kts")
