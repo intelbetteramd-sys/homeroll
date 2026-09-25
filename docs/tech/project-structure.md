@@ -48,6 +48,7 @@ pixroost/
 │   └── relay/                   # v1.1: relay на Ktor
 ├── website/                     # лендинг → GitHub Pages
 ├── build-logic/                 # convention-плагины Gradle
+├── config/detekt.yml            # правила detekt, отличия от настроек по умолчанию
 ├── gradle/libs.versions.toml    # версии зависимостей
 └── docs/                        # документация
 ```
@@ -67,6 +68,8 @@ pixroost/
 | `pixroost.android.application` | `apps/android` | Android-приложение на AGP 9 со встроенной поддержкой Kotlin и Compose |
 | `pixroost.desktop.application` | `apps/desktop` | Compose for Desktop на JVM 25 |
 
+- Проверки кода — Spotless с ktlint, detekt и Kover — настроены в корневом `build.gradle.kts` для всего репозитория
+  ([как запускать](../process/conventions.md#проверки-кода)). Kover подключает `pixroost.kmp.library`.
 - Namespace модуля выводится из пути: `:shared:sources:yandex` → `app.pixroost.sources.yandex`.
 - Gradle сам запускается на JDK 25 (`gradle/gradle-daemon-jvm.properties`), компиляция — через toolchain Gradle.
   Подробности — [JDK 25](../process/jdk.md).

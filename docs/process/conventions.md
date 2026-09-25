@@ -250,6 +250,26 @@ git config commit.template .gitmessage
   Русские множественные формы — только через `plurals`.
 - Публичный API модулей — с KDoc. Комментарии в коде — по-английски и о том, **почему**, а не **что**.
 
+### Проверки кода
+
+Все проверки настроены в корневом `build.gradle.kts` и охватывают весь репозиторий: новый модуль
+проверяется без дополнительной настройки. На Windows вместо `./gradlew` — `.\gradlew`.
+
+| Команда | Что делает |
+|---|---|
+| `./gradlew check` | всё сразу: форматирование, detekt, тесты, Android lint. Запускать перед пушем |
+| `./gradlew spotlessApply` | исправляет форматирование во всех `.kt` и `.kts` (ktlint через Spotless) |
+| `./gradlew detekt` | только статический анализ; отчёт — `build/reports/detekt/detekt.html` |
+| `./gradlew koverHtmlReport` | покрытие общих модулей тестами; отчёт — `build/reports/kover/html/index.html` |
+
+- **Стиль** задаёт [`.editorconfig`](../../.editorconfig): стиль ktlint `intellij_idea`, то есть официальный стиль Kotlin.
+  Android Studio форматирует так же (*Code → Reformat Code*), остальное исправит `spotlessApply`.
+  Composable-функции называются с большой буквы, как типы: `LampMark`.
+- **detekt** работает на правилах по умолчанию; отличия — в [`config/detekt.yml`](../../config/detekt.yml).
+  Замечание исправляем. Если правило мешает в конкретном месте, ставим `@Suppress` с именем правила
+  и комментарием, почему.
+- **Покрытие** пока без минимального порога. Порог введём, когда появится логика (Фаза 3).
+
 ### Swift (оболочка iOS)
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/), автоформат — SwiftFormat.

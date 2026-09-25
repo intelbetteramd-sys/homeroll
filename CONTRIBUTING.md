@@ -4,13 +4,14 @@
 but issues and pull requests in English are welcome. Please follow the
 [conventions](docs/process/conventions.md): branches `type/issue-short-name`, commits and PR titles in
 [Conventional Commits](https://www.conventionalcommits.org/) format (in English), squash merges only.
+Run `./gradlew check` before pushing; `./gradlew spotlessApply` fixes formatting.
 Report security issues privately — see [SECURITY.md](SECURITY.md).
 
 ---
 
 # Как участвовать в Pixroost
 
-Спасибо, что заглянули! Проект на этапе планирования: код появится в [Фазе 1](docs/roadmap.md).
+Спасибо, что заглянули! Проект на этапе ранней разработки: каркас собирается, функций продукта ещё нет.
 Уже сейчас можно обсуждать идеи, требования и архитектуру.
 
 ## С чего начать
@@ -26,9 +27,11 @@ Report security issues privately — see [SECURITY.md](SECURITY.md).
    `feat/12-qr-pairing`, `fix/34-crash-on-start`, `docs/update-roadmap`.
 3. **Коммиты** — [Conventional Commits](docs/process/conventions.md#2-коммиты) на английском:
    `feat(devices): add QR pairing screen`. Подсказка формата: `git config commit.template .gitmessage`.
-4. **Pull Request** в `main`: заголовок в том же формате (его проверяет CI), описание по шаблону,
+4. **Проверки** перед пушем: `./gradlew check` (на Windows — `.\gradlew check`). Форматирование исправит
+   `./gradlew spotlessApply`. [Подробнее о проверках](docs/process/conventions.md#проверки-кода).
+5. **Pull Request** в `main`: заголовок в том же формате (его проверяет CI), описание по шаблону,
    скриншоты для изменений интерфейса.
-5. **Слияние** — squash, после зелёного CI и ревью.
+6. **Слияние** — squash, после зелёного CI и ревью.
 
 ## Что важно в этом проекте
 

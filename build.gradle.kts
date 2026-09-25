@@ -14,16 +14,19 @@ plugins {
 
 // Style and static analysis run once over the whole repository, so a new module is covered
 // without extra setup. `check` depends on both.
+// Spotless reads .editorconfig but not ktlint_code_style from it, so the style is repeated here.
+val ktlintStyle = mapOf("ktlint_code_style" to "intellij_idea")
+
 spotless {
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**")
-        ktlint(libs.versions.ktlint.get()).setEditorConfigPath(file(".editorconfig"))
+        ktlint(libs.versions.ktlint.get()).editorConfigOverride(ktlintStyle)
     }
     kotlinGradle {
         target("**/*.kts")
         targetExclude("**/build/**")
-        ktlint(libs.versions.ktlint.get()).setEditorConfigPath(file(".editorconfig"))
+        ktlint(libs.versions.ktlint.get()).editorConfigOverride(ktlintStyle)
     }
 }
 

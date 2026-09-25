@@ -9,8 +9,7 @@ internal const val JDK_VERSION = 25
 internal val Project.libs: VersionCatalog
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-internal fun VersionCatalog.intVersion(alias: String): Int =
-    findVersion(alias).get().requiredVersion.toInt()
+internal fun VersionCatalog.intVersion(alias: String): Int = findVersion(alias).get().requiredVersion.toInt()
 
 /** `:shared:sources:yandex` → `app.pixroost.sources.yandex`, `:apps:android` → `app.pixroost.android`. */
 internal val Project.pixroostNamespace: String
