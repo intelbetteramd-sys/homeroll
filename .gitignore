@@ -27,6 +27,7 @@ DerivedData/
 *.xcuserstate
 *.xcscmblueprint
 apps/ios/build/
+apps/ios/Configuration/Local.xcconfig
 Pods/
 
 # ---------- Desktop packaging ----------

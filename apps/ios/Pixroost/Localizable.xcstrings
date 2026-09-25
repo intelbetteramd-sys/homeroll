@@ -1,0 +1,56 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Cleanup" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уборка"
+          }
+        }
+      }
+    },
+    "Devices" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Устройства"
+          }
+        }
+      }
+    },
+    "Library" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лента"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
+          }
+        }
+      }
+    },
+    "Storage" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хранилища"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

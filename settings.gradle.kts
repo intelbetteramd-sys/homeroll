@@ -37,6 +37,7 @@ rootProject.name = "pixroost"
 include(
     ":apps:android",
     ":apps:desktop",
+    ":apps:ios-framework",
     ":shared:core",
     ":shared:designsystem",
 )

@@ -24,7 +24,7 @@
 </p>
 
 > [!NOTE]
-> Pixroost is in **early development**: the project skeleton builds for Android and desktop, product features
+> Pixroost is in **early development**: the project skeleton builds for Android, desktop and iOS, product features
 > are not there yet. This repository also holds the product plan, architecture and conventions.
 > Follow the [roadmap](docs/roadmap.md).
 
