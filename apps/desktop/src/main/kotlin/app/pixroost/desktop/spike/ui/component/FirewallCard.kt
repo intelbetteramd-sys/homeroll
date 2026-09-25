@@ -10,7 +10,10 @@ import androidx.compose.ui.Modifier
 import app.pixroost.desktop.spike.data.FirewallState
 import app.pixroost.desktop.spike.ui.UiConstants
 
-/** Network profiles and the firewall rules for this Java executable, with a test rule to add or remove. */
+/**
+ * Network profiles and the firewall rules for this Java executable, with a test rule to add or remove.
+ * The buttons run PowerShell, so they are shown on Windows only.
+ */
 @Composable
 fun FirewallCard(
     firewall: FirewallState?,
@@ -24,7 +27,10 @@ fun FirewallCard(
         when {
             firewall == null -> Text("проверяю…", style = style)
 
-            !firewall.isWindows -> Text("не Windows: проверка не нужна", style = style)
+            !firewall.isWindows -> Text(
+                "Не Windows. На Mac: Системные настройки → Сеть → Брандмауэр, по умолчанию он выключен.",
+                style = style,
+            )
 
             else -> {
                 Text("Профили сети:", style = style)
@@ -35,10 +41,12 @@ fun FirewallCard(
                 firewall.rules.ifEmpty { listOf("правил нет") }.forEach { Text("  $it", style = style) }
             }
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(UiConstants.ROW_SPACING)) {
-            OutlinedButton(onClick = onRefresh) { Text("Обновить") }
-            OutlinedButton(onClick = onAddRule) { Text("Добавить правило, как установщик") }
-            OutlinedButton(onClick = onRemoveRule) { Text("Удалить все правила Java") }
+        if (firewall?.isWindows == true) {
+            Row(horizontalArrangement = Arrangement.spacedBy(UiConstants.ROW_SPACING)) {
+                OutlinedButton(onClick = onRefresh) { Text("Обновить") }
+                OutlinedButton(onClick = onAddRule) { Text("Добавить правило, как установщик") }
+                OutlinedButton(onClick = onRemoveRule) { Text("Удалить все правила Java") }
+            }
         }
     }
 }
